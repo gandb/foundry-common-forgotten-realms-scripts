@@ -28,18 +28,32 @@ declare class FoundryDocument extends Document{
 }
 
 
+declare class NPCDialog {
+
+    npcSelected:NPC|any;
+    activeNPC:NPC|any;
+    npcs:Map<string,NPC>=new Map();
+
+
+    async addNPCButtons (controls:any) ;
+
+    async showNPCChooseDialog ();
+
+    async callMinsc (frmModule:Module);
+
+    async warnAboutUpdate  (lastVersion:any);
+
+}  
+
+
+
 declare const docs:any|FoundryDocument ;
 
-declare class NPC{
-    public groups:Set<string>;
-    public screens:Set<Screen>;
-    public DEFAULT_STYLE:string;
-}
-
-
+declare class Module{}
+  
 private class CommonModule{
-    public NPC_DIALOG:NpcDialog;
-    public DIALOG_UTILS:DialogUtils;
+    public NPC_DIALOG:NPCDialog;
+    public DIALOG_UTILS:DialogUtils; 
     public debug(...msg:any):void;
     public info(...msg:any):void;
     public warn(...msg:any):void;
@@ -55,18 +69,11 @@ private class Screen{
 
 private class DialogUtils{
     public helpSubmit:string;
-    public createDialog(title:string,style:string,content:string,buttons:Array<any>, callback:any);
-    public createButton (action:string,label:string,defaultValue:boolean,type:"screen"|"screen-context"|"action",callback:any);
+    public createDialog(title:string,style:string,content:string,buttons:Array<any>, callback:any=undefined);
+    public createButton (action:string,label:string,defaultValue:boolean,type:"screen"|"screen-context"|"action",callback:any=undefined);
 
 }
-
-private class NpcDialog{
-    public activeNpc:NPC|any;
-    public npcs:Map<string,NPC|any>;
-    public async showNPCChooseDialog();
-    
-
-}
+ 
 
 
 

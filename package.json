@@ -4,11 +4,14 @@
   "description": "",
   "main": "hooks.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && vite build",
+    "vite-version": "vite --version"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "vite": "^7.2.7"
   }
 }
