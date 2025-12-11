@@ -201,9 +201,10 @@ const SETTING_A_TRAP:string = "41";
 const LOW_MORALE:string = "43";
 
 
+const doc = document as FoundryDocument;
 
 
-class Minsc{
+class Minsc   {
  
 	private readonly name:string = "Minsc";
 	private actor:any;
@@ -216,28 +217,24 @@ class Minsc{
 				.minsc-actions-buttons {  display: flex; flex-direction: column; gap: 8px; }
 			`;
 
-	constructor(public info=game.npcDialog.info,
-		public warn=game.npcDialog.warn,
-		public debug=game.npcDialog.debug,
+	constructor() { 
 
-	) { 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc = this;
+ 		this.screens.push({name:"npc-dialog",callback:doc.COMMON_MODULE.NPC_DIALOG.showNPCChooseDialog});		
 
-		game.npcDialog.activeNpc = this;
- 		this.screens.push({name:"npc-dialog",callback:game.npcDialog.showNPCChooseDialog});		
-
-		if(!game.npcDialog.npcs)
+		if(!doc.COMMON_MODULE.NPC_DIALOG.npcs)
 		{
-			game.npcDialog.npcs = new Map();
+			doc.COMMON_MODULE.NPC_DIALOG.npcs = new Map();
 		}
 
-		game.npcDialog.npcs.set("minsc",this);
+		doc.COMMON_MODULE.NPC_DIALOG.npcs.set("minsc",this);
 	}
 
 	public  decrementGroup (){
-		const array = [...game.npcDialog.activeNpc.groups];
+		const array = [...doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups];
 		const last = array.at(-1);
 		const newArray = array.slice(0, -1); 
-		game.npcDialog.activeNpc.groups =new Set(newArray);
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups =new Set(newArray);
 
 	}
 
@@ -264,38 +261,38 @@ class Minsc{
 			</div>
 		`;
 
-		game.npcDialog.activeNpc.debug("Minsc.createDialog:10",options);
-		game.npcDialog.activeNpc.debug("Minsc.createDialog:15:game.npcDialog.activeNpc.groups:",
-		game.npcDialog.activeNpc.groups);
+		doc.COMMON_MODULE.debug("Minsc.createDialog:10",options);
+		doc.COMMON_MODULE.debug("Minsc.createDialog:15:doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups:",
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups);
 
 		if(!submits){
 			
-			game.npcDialog.activeNpc.debug("Minsc.createDialog:20");
+			doc.COMMON_MODULE.debug("Minsc.createDialog:20");
 
 			submits = [
-				game.dialogUtils.createButton("send","Enviar",true,"action",async ()=> {
-					game.npcDialog.activeNpc.debug("Minsc.createDialog, before creating send:",game.npcDialog.activeNpc.groups	);
+				doc.COMMON_MODULE.DIALOG_UTILS.createButton("send","Enviar",true,"action",async ()=> {
+					doc.COMMON_MODULE.debug("Minsc.createDialog, before creating send:",doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups	);
 	
-					game.npcDialog.activeNpc.debug("Minsc.createDialog [10]: Escolhido a opcao enviar");					
+					doc.COMMON_MODULE.debug("Minsc.createDialog [10]: Escolhido a opcao enviar");					
 
-					const queryResult = document.querySelector(".minsc-actions-buttons SELECT") as HTMLSelectElement || null;
+					const queryResult = doc.querySelector(".minsc-actions-buttons SELECT") as HTMLSelectElement || null;
 					const result = queryResult?.value;
 
 					if(result===null || result===undefined){
-						game.npcDialog.activeNpc.console.error("Minsc.createDialog: Erro ao obter a opcao selecionada");
+						doc.COMMON_MODULE.NPC_DIALOG.activeNpc.console.error("Minsc.createDialog: Erro ao obter a opcao selecionada");
 						return
 					}
 
-					game.npcDialog.activeNpc.debug("Minsc.createDialog [20]: depois de selecionar o resultado",result);
+					doc.COMMON_MODULE.debug("Minsc.createDialog [20]: depois de selecionar o resultado",result);
 
 
 					if(result==="minsc-random")
 					{
-						const lastScreen  = game.npcDialog.activeNpc.screens.at(-1);
-						game.npcDialog.activeNpc.screens.push( {name:result,callback:game.npcDialog.activeNpc.send,type:lastScreen.type} );
-						game.npcDialog.activeNpc.debug("Minsc.createDialog, before  random send:",game.npcDialog.activeNpc.groups	);	
-						game.npcDialog.activeNpc.send(false);
-						game.npcDialog.activeNpc.debug("Minsc.createDialog, after random send:",game.npcDialog.activeNpc.groups	);
+						const lastScreen  = doc.COMMON_MODULE.NPC_DIALOG.activeNpc.screens.at(-1);
+						doc.COMMON_MODULE.NPC_DIALOG.activeNpc.screens.push( {name:result,callback:doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send,type:lastScreen.type} );
+						doc.COMMON_MODULE.debug("Minsc.createDialog, before  random send:",doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups	);	
+						doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(false);
+						doc.COMMON_MODULE.debug("Minsc.createDialog, after random send:",doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups	);
 	
 						return;
 					}
@@ -304,27 +301,27 @@ class Minsc{
 							return;
 						}
 
-						game.npcDialog.activeNpc.debug("Minsc.Enviado a opcao :" + result );
-						game.npcDialog.activeNpc.screens.push({name:result,callback:button.callback,type:button.type} );
+						doc.COMMON_MODULE.debug("Minsc.Enviado a opcao :" + result );
+						doc.COMMON_MODULE.NPC_DIALOG.activeNpc.screens.push({name:result,callback:button.callback,type:button.type} );
 						button.callback();
-						game.npcDialog.activeNpc.debug("Minsc.createDialog, after 3 creating send:",game.npcDialog.activeNpc.groups	);
+						doc.COMMON_MODULE.debug("Minsc.createDialog, after 3 creating send:",doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups	);
 	
 						return;
 					});
 					
 				}),
-				game.dialogUtils.createButton("back","Voltar",true,"action",async ()=> {
+				doc.COMMON_MODULE.DIALOG_UTILS.createButton("back","Voltar",true,"action",async ()=> {
 
-					game.npcDialog.activeNpc.debug("Minsc.screens ao voltar - antes: ",game.npcDialog.activeNpc.screens	);
+					doc.COMMON_MODULE.debug("Minsc.screens ao voltar - antes: ",doc.COMMON_MODULE.NPC_DIALOG.activeNpc.screens	);
 					 
-					const previousLastScreen = game.npcDialog.activeNpc.screens.at(-2);
-					const lastScreen = game.npcDialog.activeNpc.screens.pop();		
-					game.npcDialog.activeNpc.debug("lastScreen:", lastScreen)
-					game.npcDialog.activeNpc.debug("screens ao voltar - depois: ",game.npcDialog.activeNpc.screens	);
+					const previousLastScreen = doc.COMMON_MODULE.NPC_DIALOG.activeNpc.screens.at(-2);
+					const lastScreen = doc.COMMON_MODULE.NPC_DIALOG.activeNpc.screens.pop();		
+					doc.COMMON_MODULE.debug("lastScreen:", lastScreen)
+					doc.COMMON_MODULE.debug("screens ao voltar - depois: ",doc.COMMON_MODULE.NPC_DIALOG.activeNpc.screens	);
 					
 					if(lastScreen.type=="screen-context")
 					{
-						game.npcDialog.activeNpc.decrementGroup();
+						doc.COMMON_MODULE.NPC_DIALOG.activeNpc.decrementGroup();
 					}
 
 					previousLastScreen.callback();
@@ -332,37 +329,37 @@ class Minsc{
 					  
 
 				}),
-				game.dialogUtils.createButton("cancel","Cancelar",true,"action",async ()=> {
-					game.npcDialog.activeNpc.debug("Minsc.Cancelado a tela do minsc"); 
+				doc.COMMON_MODULE.DIALOG_UTILS.createButton("cancel","Cancelar",true,"action",async ()=> {
+					doc.COMMON_MODULE.debug("Minsc.Cancelado a tela do minsc"); 
 				})
 			];	
 
-			game.npcDialog.activeNpc.debug("Minsc.createDialog:25. Create submits",submits);
+			doc.COMMON_MODULE.debug("Minsc.createDialog:25. Create submits",submits);
 
-			game.npcDialog.activeNpc.debug("Minsc.createDialog:30 - depois de criar submits");
+			doc.COMMON_MODULE.debug("Minsc.createDialog:30 - depois de criar submits");
 		}
   
 	  
 		const submit = (action:string,label:string,defaultValue:string,callback:any)=>{
 		};
 
-		game.npcDialog.activeNpc.debug("Minsc.createDialog:40 - antes de criar dialogo");
+		doc.COMMON_MODULE.debug("Minsc.createDialog:40 - antes de criar dialogo");
 
-		game.dialogUtils.createDialog( title ,game.npcDialog.activeNpc.DEFAULT_STYLE ,newContent,submits,submit);
+		doc.COMMON_MODULE.DIALOG_UTILS.createDialog( title ,doc.COMMON_MODULE.NPC_DIALOG.activeNpc.DEFAULT_STYLE ,newContent,submits,submit);
 
-		game.npcDialog.activeNpc.debug("Minsc.createDialog:50 - depois de criar dialogo");
+		doc.COMMON_MODULE.debug("Minsc.createDialog:50 - depois de criar dialogo");
 
 	}
 
 	public async startScreen () {
-			game.npcDialog.activeNpc.screens.push({name:"start-screen",callback:game.npcDialog.activeNpc.startScreen,type:"screen"} );
+			doc.COMMON_MODULE.NPC_DIALOG.activeNpc.screens.push({name:"start-screen",callback:doc.COMMON_MODULE.NPC_DIALOG.activeNpc.startScreen,type:"screen"} );
 
-			game.npcDialog.activeNpc.debug("game.npcDialog.activeNpc.screens inicial: ",game.npcDialog.activeNpc.screens	);
+			doc.COMMON_MODULE.debug("doc.COMMON_MODULE.NPC_DIALOG.activeNpc.screens inicial: ",doc.COMMON_MODULE.NPC_DIALOG.activeNpc.screens	);
 
-			game.npcDialog.debug("startScreen:10,char_name:",game.npcDialog.activeNpc.name); 
+			doc.COMMON_MODULE.debug("startScreen:10,char_name:",doc.COMMON_MODULE.NPC_DIALOG.activeNpc.name); 
 
 			this.actor = game.actors.getName("Minsc de Rasemen");
-			if (!game.npcDialog.activeNpc.actor) return ui.notifications.error("Minsc não encontrado!");
+			if (!doc.COMMON_MODULE.NPC_DIALOG.activeNpc.actor) return ui.notifications.error("Minsc não encontrado!");
 
 			const title = "Minsc: Escolha o que fazer";
 			 
@@ -370,56 +367,56 @@ class Minsc{
 				<div class="select-action">
 				<H1>Escolha uma ação:</H1> `;
 
-			game.npcDialog.debug("startScreen:20. criando botoes"); 
+			doc.COMMON_MODULE.debug("startScreen:20. criando botoes"); 
 
 				
 			/** TODO : Melhorar o estilo pros botoes aparecerem de melhor maneira **/
 			const buttons =[
-					//ex com parametros		game.npcDialog.activeNpc.createButton("minsc","Minsc",true,(event, button, dialog) => npcDialog.callMinsc()),
-					game.dialogUtils.createButton("minsc-encontrando-alguem","Encontrando Alguém",true,"screen-context",async ()=> game.npcDialog.activeNpc.findSomeone() ),
-					game.dialogUtils.createButton("minsc-encontrando-em-algum-lugar","Entrando em Um Lugar",true,"screen",async ()=> game.npcDialog.activeNpc.enterInAPlace() ),
-					game.dialogUtils.createButton("minsc-sobrecarga-peso","Sobrecarga de peso",true,"action",async ()=> game.npcDialog.activeNpc.overWeight() ),
-					game.dialogUtils.createButton("minsc-concordando","Concordando",true,"action",async ()=> game.npcDialog.activeNpc.agree() ),
-					game.dialogUtils.createButton("minsc-discordando","Discordando",true,"action",async ()=> game.npcDialog.activeNpc.notAgree() ),
-					game.dialogUtils.createButton("minsc-reclamando-do-grupo","Reclamando do Grupo",true,"screen-context",async ()=> game.npcDialog.activeNpc.complainingAboutGroup() ),
-					game.dialogUtils.createButton("minsc-durante-o-dia","Durante o dia",true,"action",async ()=> game.npcDialog.activeNpc.inDay() ),
-					game.dialogUtils.createButton("minsc-durante-a-noite","Durante a noite",true,"action",async ()=> game.npcDialog.activeNpc.inNight() ),
-					game.dialogUtils.createButton("minsc-nao-entendendo","Não entendendo",true,"action",async ()=> game.npcDialog.activeNpc.notUnderstood() ),
-					game.dialogUtils.createButton("minsc-durante-a-noite","Durante a noite",true,"action",async ()=> game.npcDialog.activeNpc.createAmbush() ),
-					game.dialogUtils.createButton("minsc-criando-emboscada","Criar uma Emboscada",true,"action",async ()=> game.npcDialog.activeNpc.dooingATrapOrAmbush() ),
-					game.dialogUtils.createButton("minsc-se-liberando-de-uma-magia","Se Liberando de Uma Magia",true,"action",async ()=> game.npcDialog.activeNpc.freeOfTheMagic() ),
-					game.dialogUtils.createButton("minsc-exaustao","Exaustão",true,"action",async ()=> game.npcDialog.activeNpc.exaustion() ),
-					game.dialogUtils.createButton("minsc-levando-dano","Levando Dano",true,"action",async ()=> game.npcDialog.activeNpc.getHurt() ),
-					game.dialogUtils.createButton("minsc-armadura-completa","Com Armadura Completa",true,"action",async  ()=> game.npcDialog.activeNpc.fullPlate() ),
-					game.dialogUtils.createButton("minsc-sendo-enganado","Sendo Enganado",true,"action",async  ()=> game.npcDialog.activeNpc.beingFooled() ),
-					game.dialogUtils.createButton("minsc-pro-bardo","Pro Bardo",true,"action",async ()=> game.npcDialog.activeNpc.orBard() ),
-					game.dialogUtils.createButton("minsc-entrando-no-grupo","Entrando no Grupo",true,"action",async  ()=> game.npcDialog.activeNpc.enterInTheParty() ),
-					game.dialogUtils.createButton("minsc-saindo-do-grupo","Saindo do Grupo",true,"action",async  ()=> game.npcDialog.activeNpc.quitOfTheParty() ),
-					game.dialogUtils.createButton("minsc-elogiando-uma-fala","Elogiando uma fala",true,"action",async  ()=> game.npcDialog.activeNpc.complimentingASpeech() ),
-					game.dialogUtils.createButton("minsc-perdendo-invisibilidade","Perdendo Invisibilidade",true,"action",async  ()=> game.npcDialog.activeNpc.loosingInvisibility() ),
-					game.dialogUtils.createButton("minsc-afirmando-que-esta-pronto","Afirmando que esta pronto",true,"action",async  ()=> game.npcDialog.activeNpc.iAmReady() ),
-					game.dialogUtils.createButton("minsc-alguem-pedindo-pra-pegar-boo","Alguém pedindo pra pegar Boo",true,"action",async  ()=> game.npcDialog.activeNpc.getBoo() ),
+					//ex com parametros		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.createButton("minsc","Minsc",true,(event, button, dialog) => npcDialog.callMinsc()),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-encontrando-alguem","Encontrando Alguém",true,"screen-context",async ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.findSomeone() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-encontrando-em-algum-lugar","Entrando em Um Lugar",true,"screen",async ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.enterInAPlace() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-sobrecarga-peso","Sobrecarga de peso",true,"action",async ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.overWeight() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-concordando","Concordando",true,"action",async ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.agree() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-discordando","Discordando",true,"action",async ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.notAgree() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-reclamando-do-grupo","Reclamando do Grupo",true,"screen-context",async ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.complainingAboutGroup() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-durante-o-dia","Durante o dia",true,"action",async ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.inDay() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-durante-a-noite","Durante a noite",true,"action",async ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.inNight() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-nao-entendendo","Não entendendo",true,"action",async ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.notUnderstood() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-durante-a-noite","Durante a noite",true,"action",async ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.createAmbush() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-criando-emboscada","Criar uma Emboscada",true,"action",async ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.dooingATrapOrAmbush() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-se-liberando-de-uma-magia","Se Liberando de Uma Magia",true,"action",async ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.freeOfTheMagic() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-exaustao","Exaustão",true,"action",async ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.exaustion() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-levando-dano","Levando Dano",true,"action",async ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.getHurt() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-armadura-completa","Com Armadura Completa",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.fullPlate() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-sendo-enganado","Sendo Enganado",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.beingFooled() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-pro-bardo","Pro Bardo",true,"action",async ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.orBard() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-entrando-no-grupo","Entrando no Grupo",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.enterInTheParty() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-saindo-do-grupo","Saindo do Grupo",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.quitOfTheParty() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-elogiando-uma-fala","Elogiando uma fala",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.complimentingASpeech() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-perdendo-invisibilidade","Perdendo Invisibilidade",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.loosingInvisibility() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-afirmando-que-esta-pronto","Afirmando que esta pronto",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.iAmReady() ),
+					doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-alguem-pedindo-pra-pegar-boo","Alguém pedindo pra pegar Boo",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.getBoo() ),
 				];
 
-			game.npcDialog.debug("startScreen:30 depois de criado botoes"); 
+			doc.COMMON_MODULE.debug("startScreen:30 depois de criado botoes"); 
 
   
-			game.npcDialog.activeNpc.createDialog( title ,content,buttons); 
+			doc.COMMON_MODULE.NPC_DIALOG.activeNpc.createDialog( title ,content,buttons); 
 
-			game.npcDialog.debug("startScreen:40 depois de criado dialogo"); 
+			doc.COMMON_MODULE.debug("startScreen:40 depois de criado dialogo"); 
 
 	}
 
 		
 	public async iAmReady() {
-		game.npcDialog.activeNpc.groups.add(I_AM_READY);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(I_AM_READY);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 	
 
 
 	public async complainingAboutGroup() {
-		game.npcDialog.activeNpc.groups.add(COMPLAINING_ABOUT_THE_GROUP); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(COMPLAINING_ABOUT_THE_GROUP); 
 
 
 		const title = "Minsc: Escolha o que fazer";
@@ -432,18 +429,18 @@ class Minsc{
 
 
 		const buttons =[
-				//ex com parametros		game.npcDialog.activeNpc.createButton("minsc","Minsc",true,(event, button, dialog) => npcDialog.callMinsc()),
-				game.dialogUtils.createButton("minsc-sobre-boo","Sobre o Boo",true,"action",async  ()=> game.npcDialog.activeNpc.aboutBoo() ),
+				//ex com parametros		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.createButton("minsc","Minsc",true,(event, button, dialog) => npcDialog.callMinsc()),
+				doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-sobre-boo","Sobre o Boo",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.aboutBoo() ),
 			];
 
-		game.npcDialog.activeNpc.createDialog( title ,content,buttons); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.createDialog( title ,content,buttons); 
 
 	}
 
 
 
   public async findSomeone() {
-	game.npcDialog.activeNpc.groups.add(FIND_SOMEONE);
+	doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(FIND_SOMEONE);
 	
 	const title = "Minsc: Escolha o que fazer";
  
@@ -455,11 +452,11 @@ class Minsc{
 
 
 	const buttons =[
-			//ex com parametros		game.npcDialog.activeNpc.createButton("minsc","Minsc",true,(event, button, dialog) => npcDialog.callMinsc()),
-			game.dialogUtils.createButton("minsc-vendo-alguem-conhecido","Vendo alguém conhecido","action",true,async  ()=> game.npcDialog.activeNpc.seeingSomeoneFamiliar() ),
+			//ex com parametros		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.createButton("minsc","Minsc",true,(event, button, dialog) => npcDialog.callMinsc()),
+			doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-vendo-alguem-conhecido","Vendo alguém conhecido",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.seeingSomeoneFamiliar() ),
 		];
 
-	game.npcDialog.activeNpc.createDialog( title ,content,buttons); 
+	doc.COMMON_MODULE.NPC_DIALOG.activeNpc.createDialog( title ,content,buttons); 
 
   }
 
@@ -473,67 +470,67 @@ class Minsc{
 			<div class="select-action">
 			<H1>Escolha uma ação:</H1> `;
 			
-		game.npcDialog.debug("enterInAPlace:10,before creating buttons"); 
+		doc.COMMON_MODULE.debug("enterInAPlace:10,before creating buttons"); 
 
 		const buttons =[
-				//ex com parametros		game.npcDialog.activeNpc.createButton("minsc","Minsc",true,(event, button, dialog) => npcDialog.callMinsc()),
-				game.dialogUtils.createButton("minsc-em-batalha","Entrando em Batalha",true,"screen-context",async  ()=> game.npcDialog.activeNpc.enterInBattle() ),
-				game.dialogUtils.createButton("minsc-numa-cidade","Numa Cidade",true,"action",async  ()=> game.npcDialog.activeNpc.enterInACity() ),
-				game.dialogUtils.createButton("minsc-na-floresta","Na Floresta",true,"action",async  ()=> game.npcDialog.activeNpc.enterInAFlorest() ),
-				game.dialogUtils.createButton("minsc-dungeon","Dungeon",true,"action",async  ()=> game.npcDialog.activeNpc.enterInDungeon() ), 
+				//ex com parametros		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.createButton("minsc","Minsc",true,(event, button, dialog) => npcDialog.callMinsc()),
+				doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-em-batalha","Entrando em Batalha",true,"screen-context",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.enterInBattle() ),
+				doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-numa-cidade","Numa Cidade",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.enterInACity() ),
+				doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-na-floresta","Na Floresta",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.enterInAFlorest() ),
+				doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-dungeon","Dungeon",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.enterInDungeon() ), 
 			];
 
-		game.npcDialog.debug("enterInAPlace:10,after creating buttons"); 
+		doc.COMMON_MODULE.debug("enterInAPlace:10,after creating buttons"); 
 
 
-		game.npcDialog.activeNpc.createDialog( title ,content,buttons);
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.createDialog( title ,content,buttons);
 
-		game.npcDialog.debug("enterInAPlace:10,after creating dialogs"); 
+		doc.COMMON_MODULE.debug("enterInAPlace:10,after creating dialogs"); 
 
 	} 
  
 	public async enterInDungeon(){
-		game.npcDialog.activeNpc.groups.add(IN_DUNGEON);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(IN_DUNGEON);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 	
 
   public async enterInAFlorest () {
-	game.npcDialog.activeNpc.groups.add(IN_FOREST);
-	await game.npcDialog.activeNpc.send(); 
+	doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(IN_FOREST);
+	await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
   }
   
   public async enterInACity () {
-	game.npcDialog.activeNpc.groups.add(IN_CITY);
-	await game.npcDialog.activeNpc.send(); 
+	doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(IN_CITY);
+	await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
   }
  
    public async stealthy () {
-	game.npcDialog.activeNpc.groups.add(STEALTHY);
-	game.npcDialog.activeNpc.send();
+	doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(STEALTHY);
+	doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send();
   }
 
    public async bigEnemy () {
-	game.npcDialog.activeNpc.groups.add(BIG_ENEMY);
-	await game.npcDialog.activeNpc.send(); 
+	doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(BIG_ENEMY);
+	await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
   }
   
    public async inDay () {
-	game.npcDialog.activeNpc.groups.add(DURING_DAY);
-	await game.npcDialog.activeNpc.send(); 
+	doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(DURING_DAY);
+	await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
   }
 
   public async inNight () {
-		game.npcDialog.activeNpc.groups.add(DURING_NIGHT);
-	await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(DURING_NIGHT);
+	await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
   }
   public async friendGetHurt () {	
-	game.npcDialog.activeNpc.groups.add(IF_SOMEONE_HURTS_A_GROUP_MEMBER);
-	await game.npcDialog.activeNpc.send(); 
+	doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(IF_SOMEONE_HURTS_A_GROUP_MEMBER);
+	await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
   }
 
   public async getHurt  () {
-	game.npcDialog.activeNpc.groups.add(GETTING_HURT); 
+	doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(GETTING_HURT); 
 
 	const title = "Minsc se machucou: Escolha a situação";
  
@@ -542,54 +539,54 @@ class Minsc{
 		<H1>Escolha uma ação:</H1> `;
 		 
 	const buttons =[
-			//ex com parametros		game.npcDialog.activeNpc.createButton("minsc","Minsc",true,(event, button, dialog) => npcDialog.callMinsc()),
-			game.dialogUtils.createButton("minsc-menos-de-25","Menos de 25% de vida",true,"action",async  ()=> game.npcDialog.activeNpc.less25p100OfLife() ),
-			game.dialogUtils.createButton("minsc-menos-de-50","Menos de 50% de vida",true,"action",async  ()=> game.npcDialog.activeNpc.less50p100OfLife() ), 
+			//ex com parametros		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.createButton("minsc","Minsc",true,(event, button, dialog) => npcDialog.callMinsc()),
+			doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-menos-de-25","Menos de 25% de vida",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.less25p100OfLife() ),
+			doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-menos-de-50","Menos de 50% de vida",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.less50p100OfLife() ), 
 		];
 
-	game.npcDialog.activeNpc.createDialog( title ,content,buttons);  
+	doc.COMMON_MODULE.NPC_DIALOG.activeNpc.createDialog( title ,content,buttons);  
   }
  
   public async less25p100OfLife () {
-	game.npcDialog.activeNpc.groups.add(ONE_QUARTER_LIFE);
-	await game.npcDialog.activeNpc.send(); 
+	doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(ONE_QUARTER_LIFE);
+	await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
   }
 
   public async less50p100OfLife  () {
-	game.npcDialog.activeNpc.groups.add(HALF_LIFE);
-	await game.npcDialog.activeNpc.send(); 
+	doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(HALF_LIFE);
+	await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
   }
 
   public async toHit() {
-	game.npcDialog.activeNpc.groups.add(LANDING_A_HIT);
-	await game.npcDialog.activeNpc.send(); 
+	doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(LANDING_A_HIT);
+	await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 
   }
 
   
   public async agree () {	
-	game.npcDialog.activeNpc.groups.add(AGREEING_WITH_THE_GROUP);
-	await game.npcDialog.activeNpc.send();  
+	doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(AGREEING_WITH_THE_GROUP);
+	await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send();  
   }
 	
 	public async notAgree  () {	
-		game.npcDialog.activeNpc.groups.add(NOT_AGREEING_WITH_SOMETHING);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(NOT_AGREEING_WITH_SOMETHING);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 
 	public async notUnderstood () {	
-		game.npcDialog.activeNpc.groups.add(I_DONT_UNDERSTAND_SOMETHING);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(I_DONT_UNDERSTAND_SOMETHING);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 
 	public async getBoo () {	
-		game.npcDialog.activeNpc.groups.add(IF_SOMEONE_ASKS_TO_CATCH_THE_BOO);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(IF_SOMEONE_ASKS_TO_CATCH_THE_BOO);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 	
 
 	public async enterInBattle () {	
-		game.npcDialog.activeNpc.groups.add(ENTER_IN_BATTLE); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(ENTER_IN_BATTLE); 
 
 		const title = "Minsc em combate: Escolha a situação";
 		
@@ -598,146 +595,146 @@ class Minsc{
 			<H1>Escolha uma ação:</H1> `;
 			
 		const buttons =[
-				//ex com parametros		game.npcDialog.activeNpc.createButton("minsc","Minsc",true,(event, button, dialog) => npcDialog.callMinsc()),
-				game.dialogUtils.createButton("minsc-matou-alguem","Matou alguém",true,"action", async  ()=> game.npcDialog.activeNpc.killingSomeone() ),
-				game.dialogUtils.createButton("minsc-errou-alvo","Errando Alvo",true,"action",async  ()=> game.npcDialog.activeNpc.missingHit() ), 
-				game.dialogUtils.createButton("minsc-levou-dano","Levando Dano",true,"screen-context",async  ()=> game.npcDialog.activeNpc.getHurt() ),
-				game.dialogUtils.createButton("minsc-amigo-levou-dano","Amigo Recebendo Dano",true,"action",async  ()=> game.npcDialog.activeNpc.friendGetHurt() ), 
-				game.dialogUtils.createButton("minsc-magia-falhando","Magia Falhando",true,"action",async  ()=> game.npcDialog.activeNpc.missMagic() ),
-				game.dialogUtils.createButton("minsc-acertando-inimigo","Acertando o Inimigo",true,"action",async  ()=> game.npcDialog.activeNpc.toHit() ), 
-				game.dialogUtils.createButton("minsc-modo-furtivo","Entrando em Modo Furtivo",true,"action",async  ()=> game.npcDialog.activeNpc.stealthy() ),
-				game.dialogUtils.createButton("minsc-inimigo-grande","Inimigo Grande",true,"action",async  ()=> game.npcDialog.activeNpc.bigEnemy() ), 
-				game.dialogUtils.createButton("minsc-inimigo-imune","Notando imunidade do inimigo",true,"action",async  ()=> game.npcDialog.activeNpc.enemyImunne() ), 
+				//ex com parametros		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.createButton("minsc","Minsc",true,(event, button, dialog) => npcDialog.callMinsc()),
+				doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-matou-alguem","Matou alguém",true,"action", async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.killingSomeone() ),
+				doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-errou-alvo","Errando Alvo",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.missingHit() ), 
+				doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-levou-dano","Levando Dano",true,"screen-context",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.getHurt() ),
+				doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-amigo-levou-dano","Amigo Recebendo Dano",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.friendGetHurt() ), 
+				doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-magia-falhando","Magia Falhando",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.missMagic() ),
+				doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-acertando-inimigo","Acertando o Inimigo",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.toHit() ), 
+				doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-modo-furtivo","Entrando em Modo Furtivo",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.stealthy() ),
+				doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-inimigo-grande","Inimigo Grande",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.bigEnemy() ), 
+				doc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-inimigo-imune","Notando imunidade do inimigo",true,"action",async  ()=> doc.COMMON_MODULE.NPC_DIALOG.activeNpc.enemyImunne() ), 
 			];
 
-		game.npcDialog.activeNpc.createDialog( title ,content,buttons);  
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.createDialog( title ,content,buttons);  
 	}
 
 	public async enemyImunne () {	
-		game.npcDialog.activeNpc.groups.add(ENEMY_WITH_IMMUNITY);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(ENEMY_WITH_IMMUNITY);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 	
 	public async missMagic () {	
-		game.npcDialog.activeNpc.groups.add(AFTER_MAGIC_FAILS);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(AFTER_MAGIC_FAILS);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 
 	public async missingHit () {	
-		game.npcDialog.activeNpc.groups.add(MISSING_THE_HIT);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(MISSING_THE_HIT);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 
 	public async killingSomeone () {	
-		game.npcDialog.activeNpc.groups.add(KILLING_AN_ENEMY);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(KILLING_AN_ENEMY);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 
 	public async imunityDetected () {	
-		game.npcDialog.activeNpc.groups.add(ENEMY_WITH_IMMUNITY);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(ENEMY_WITH_IMMUNITY);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 
 	public async overWeight () {	
-		game.npcDialog.activeNpc.groups.add(OVERWEIGHT);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(OVERWEIGHT);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 
 	public async afterMagic  () {	
-		game.npcDialog.activeNpc.groups.add(AFTER_SOMEONE_CASTS_MAGIC);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(AFTER_SOMEONE_CASTS_MAGIC);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	};
 
 
 
 	public async aboutBoo   () {	
-		game.npcDialog.activeNpc.groups.add(ABOUT_THE_BOO);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(ABOUT_THE_BOO);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}; 
 
 	
 	public  async afterMagicFail   () {	
-		game.npcDialog.activeNpc.groups.add(AFTER_MAGIC_FAILS);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(AFTER_MAGIC_FAILS);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 	
 	public async moralDecrement  () {	
-		game.npcDialog.activeNpc.groups.add(LOWERING_MORALE);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(LOWERING_MORALE);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 
 	
 	public async oMoral   () {	
-		game.npcDialog.activeNpc.groups.add(ZERO_MORALE);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(ZERO_MORALE);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 
 
 	public async createAmbush   () {	
-		game.npcDialog.activeNpc.groups.add(SETTING_AN_AMBUSH);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(SETTING_AN_AMBUSH);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 
 	public async freeOfTheMagic   () {	
-		game.npcDialog.activeNpc.groups.add(BREAKING_FREE_FROM_MAGIC);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(BREAKING_FREE_FROM_MAGIC);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 	
 	public   async exaustion  () {	
-		game.npcDialog.activeNpc.groups.add(WITH_EXHAUSTION);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(WITH_EXHAUSTION);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 
 	public   async ullPlate   () {	
-		game.npcDialog.activeNpc.groups.add(FULL_ARMOR);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(FULL_ARMOR);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 	
 	public   async beingFooled  () {	
-		game.npcDialog.activeNpc.groups.add(ON_BEING_DECEIVED);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(ON_BEING_DECEIVED);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 
 	public   async orBard   () {	
-		game.npcDialog.activeNpc.groups.add(TO_THE_BARD);
-		await game.npcDialog.activeNpc.send(); 
+		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(TO_THE_BARD);
+		await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 
 	public   async enterInTheParty  () {
-			game.npcDialog.activeNpc.groups.add(JOINING_THE_GROUP);
-			await game.npcDialog.activeNpc.send(); 
+			doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(JOINING_THE_GROUP);
+			await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 
 	public   async quitOfTheParty  () {
-			game.npcDialog.activeNpc.groups.add(LEAVING_THE_GROUP);
-			await game.npcDialog.activeNpc.send(); 
+			doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(LEAVING_THE_GROUP);
+			await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 	
 	public   async complimentingASpeech  () {
-			game.npcDialog.activeNpc.groups.add(PRAISING_THE_SPEECH);
-			await game.npcDialog.activeNpc.send(); 
+			doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(PRAISING_THE_SPEECH);
+			await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
       
 	public   async seeingSomeoneFamiliar  () {
-			game.npcDialog.activeNpc.groups.add(FIND_SOMEONE_FAMILIAR);
-			await game.npcDialog.activeNpc.send(); 
+			doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(FIND_SOMEONE_FAMILIAR);
+			await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 
 	public   async loosingInvisibility  () {
-   		game.npcDialog.activeNpc.groups.add(LOSING_INVISIBILITY_MAGIC);
-	  	await game.npcDialog.activeNpc.send(); 
+   		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(LOSING_INVISIBILITY_MAGIC);
+	  	await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 
    
 	public async dooingATrapOrAmbush () {
-   		game.npcDialog.activeNpc.groups.add(SETTING_AN_AMBUSH);
-	  	await game.npcDialog.activeNpc.send(); 
+   		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(SETTING_AN_AMBUSH);
+	  	await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send(); 
 	}
 
     
  	public   async randonAboutBoo () {
-   		game.npcDialog.activeNpc.groups.add(SETTING_AN_AMBUSH);
-	  	await game.npcDialog.activeNpc.send();
+   		doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(SETTING_AN_AMBUSH);
+	  	await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.send();
 	}
 
 	public   async getListLinesFromGroup (groupsUnordered:any) {
@@ -753,9 +750,9 @@ class Minsc{
 			return groups;
 		}
 		
-		let combinations = await game.npcDialog.activeNpc.getCombinations(groups);
-		game.npcDialog.activeNpc.debug("groups:",groups);
-		game.npcDialog.activeNpc.debug("keys:",combinations);
+		let combinations = await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.getCombinations(groups);
+		doc.COMMON_MODULE.debug("groups:",groups);
+		doc.COMMON_MODULE.debug("keys:",combinations);
 		 
 		return combinations;
 	
@@ -774,26 +771,26 @@ class Minsc{
 		}
 
  		 
-	 	game.npcDialog.activeNpc.debug("numbers:",numbers);
+	 	doc.COMMON_MODULE.debug("numbers:",numbers);
 
 		const generate = (start:number, path:Array<number>) => {
-			game.npcDialog.activeNpc.debug("generate start:",start,",path",path);
+			doc.COMMON_MODULE.debug("generate start:",start,",path",path);
 
 
 			let combinationKey = numbers.join(";") 
-			game.npcDialog.activeNpc.debug("combinationKey:",combinationKey);
+			doc.COMMON_MODULE.debug("combinationKey:",combinationKey);
 
-			game.npcDialog.activeNpc.debug("groupToLines:",groupToLines,"-",typeof combinationKey);
+			doc.COMMON_MODULE.debug("groupToLines:",groupToLines,"-",typeof combinationKey);
 
 			if(groupToLines.has(combinationKey)) {
-				game.npcDialog.activeNpc.debug("find, return the combination");
+				doc.COMMON_MODULE.debug("find, return the combination");
 				ret.push(combinationKey);
 				return ret;
 			}
-		   game.npcDialog.activeNpc.debug("combinationKey not found:",combinationKey);
+		   doc.COMMON_MODULE.debug("combinationKey not found:",combinationKey);
 			for (let i = start; i < numbers.length; i++) {
 				const newCombinationGroup:Array<number> = [...path, numbers[i]];
-				game.npcDialog.activeNpc.debug("novaCombinacao:",newCombinationGroup);
+				doc.COMMON_MODULE.debug("novaCombinacao:",newCombinationGroup);
 				combinationKey = newCombinationGroup.join(";") 
 				ret.push(combinationKey);
 	 			generate(i + 1, newCombinationGroup);
@@ -808,14 +805,14 @@ class Minsc{
 	public async speak  (lineIndex:number){
 		const line = minscLines[lineIndex];
 
-		game.npcDialog.activeNpc.debug("line:",line);
+		doc.COMMON_MODULE.debug("line:",line);
 
 
-		game.npcDialog.activeNpc.debug("speak:talk:",line);
+		doc.COMMON_MODULE.debug("speak:talk:",line);
 		ChatMessage.create({
 			content: line,
 			speaker: ChatMessage.getSpeaker({
-				alias: game.npcDialog.activeNpc.actor.name
+				alias: doc.COMMON_MODULE.NPC_DIALOG.activeNpc.actor.name
 			})
 		});
 
@@ -827,23 +824,24 @@ class Minsc{
  
 	
 	public   async send(removeLastGroup=true) {
-			if(game.npcDialog.activeNpc.groups.size === 0) {
-				game.npcDialog.activeNpc.groups.add(RANDOM);
+			if(doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.size === 0) {
+				doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.add(RANDOM);
 			} 
 	
-			const list = await game.npcDialog.activeNpc.getListLinesFromGroup(game.npcDialog.activeNpc.groups);
-
-			game.npcDialog.activeNpc.debug("Minsc.send, before send,list:",list);
+			const list = await doc.COMMON_MODULE.NPC_DIALOG.activeNpc.getListLinesFromGroup(doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups);
+			
+		 
+			doc.COMMON_MODULE.debug("Minsc.send, before send,list:",list);
 
 			const lines = new Array();
 
 			for(const groupNumber of list) {
 		
 				const group = groupNumber.toString();
-				game.npcDialog.activeNpc.debug("group:",group);
+				doc.COMMON_MODULE.debug("group:",group);
 				if(!groupToLines.has(group))
 				{
-					game.npcDialog.activeNpc.warn(`Minsc.send, afterSend:Grupo ${group} não encontrado em groupToLines!`);
+					doc.COMMON_MODULE.warn(`Minsc.send, afterSend:Grupo ${group} não encontrado em groupToLines!`);
 					continue;
 				}
 	
@@ -851,10 +849,10 @@ class Minsc{
 
 		
 				const linesForThisGroupConcat:string =  groupToLines.get(group) as string;
-				game.npcDialog.activeNpc.debug("Minsc.send, 50,linesForThisGroupConcat:",linesForThisGroupConcat,"-size:",size);
+				doc.COMMON_MODULE.debug("Minsc.send, 50,linesForThisGroupConcat:",linesForThisGroupConcat,"-size:",size);
 
 				const linesForThisGroup = linesForThisGroupConcat.split(";"); 
-				game.npcDialog.activeNpc.debug("Minsc.send, 60,linesForThisGroup:",linesForThisGroup);
+				doc.COMMON_MODULE.debug("Minsc.send, 60,linesForThisGroup:",linesForThisGroup);
 				linesForThisGroup.forEach(line=>{
 					for(let i=0;i<size;i++) {
 						lines.push(  line);
@@ -863,38 +861,38 @@ class Minsc{
 				
 			}
 
-			game.npcDialog.activeNpc.debug("Minsc.send, afterSend,lines:",lines);
+			doc.COMMON_MODULE.debug("Minsc.send, afterSend,lines:",lines);
 
 			let randomIndex = Math.abs(  Math.round( (Math.random( )*lines.length))); 
 			randomIndex = randomIndex>=lines.length ? lines.length-1: randomIndex;
 
-			game.npcDialog.activeNpc.debug("Minsc.send, afterSend,randomIndex:",randomIndex);
+			doc.COMMON_MODULE.debug("Minsc.send, afterSend,randomIndex:",randomIndex);
 
 			const lineIndex = parseInt( lines[randomIndex],10);
 
-			game.npcDialog.activeNpc.debug("Minsc.send, afterSend,lineIndex:",lineIndex);
+			doc.COMMON_MODULE.debug("Minsc.send, afterSend,lineIndex:",lineIndex);
 
 
-			game.npcDialog.activeNpc.speak(lineIndex);
+			doc.COMMON_MODULE.NPC_DIALOG.activeNpc.speak(lineIndex);
 	
 
-			game.npcDialog.activeNpc.debug("Minsc.send, afterSend,activeScreen:",game.npcDialog.activeNpc.screens	);
+			doc.COMMON_MODULE.debug("Minsc.send, afterSend,activeScreen:",doc.COMMON_MODULE.NPC_DIALOG.activeNpc.screens	);
 		
-			const activeScreen = game.npcDialog.activeNpc.screens.at(-2);
-			game.npcDialog.activeNpc.screens.pop();
+			const activeScreen = doc.COMMON_MODULE.NPC_DIALOG.activeNpc.screens.at(-2);
+			doc.COMMON_MODULE.NPC_DIALOG.activeNpc.screens.pop();
 		
 			activeScreen.callback();
 
 	
-			const lastIsRandom = game.npcDialog.activeNpc.groups.has(RANDOM); 
+			const lastIsRandom = doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups.has(RANDOM); 
 			removeLastGroup = removeLastGroup || lastIsRandom;
-			game.npcDialog.activeNpc.debug("Minsc.send, onlyRandom,removeLastGroup:", lastIsRandom,",",removeLastGroup);
+			doc.COMMON_MODULE.debug("Minsc.send, onlyRandom,removeLastGroup:", lastIsRandom,",",removeLastGroup);
 
 			if(removeLastGroup)
 			{
-				game.npcDialog.activeNpc.decrementGroup();
+				doc.COMMON_MODULE.NPC_DIALOG.activeNpc.decrementGroup();
 			}
-			game.npcDialog.activeNpc.debug("Minsc.send, afterSend:",game.npcDialog.activeNpc.groups	);
+			doc.COMMON_MODULE.debug("Minsc.send, afterSend:",doc.COMMON_MODULE.NPC_DIALOG.activeNpc.groups	);
 		
 	}
  
