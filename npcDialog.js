@@ -105,7 +105,7 @@ class NPCDialog {
    async callMinsc (frmModule)
 	{
 		document.COMMON_MODULE.debug("Selecionado Minsc...");
-		document.COMMON_MODULE.NPC_DIALOG.npcSelected = new Minsc()
+		document.COMMON_MODULE.NPC_DIALOG.npcSelected = new Minsc();
 			await document.COMMON_MODULE.NPC_DIALOG.npcSelected.startScreen();
 
 	}
