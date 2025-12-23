@@ -33,16 +33,17 @@ const docNpcDialog:FoundryDocument = document as FoundryDocument;
 
 export class NPCDialog {
 
-	npcSelected:NPC|any;
-	activeNPC:NPC|any;
-	npcs:Map<string,NPC>=new Map();
+	public npcSelected:NPC|any;
+	public activeNPC:NPC|any;
+	public npcs:Map<string,NPC>=new Map();
+	public buttonloaded:boolean=false;
 
   constructor() {
 	docNpcDialog.COMMON_MODULE.NPC_DIALOG = this;
   }
 
  
-   async addNPCButtons (controls:any) {
+   public async addNPCButtons (controls:any) {
     	const gm = game.users.activeGM;
 		if (gm && gm.id !== game.user.id) {
 			docNpcDialog.COMMON_MODULE.debug("NPC Buttons off");
@@ -67,7 +68,7 @@ export class NPCDialog {
   }
 
   
-  async showNPCChooseDialog () {
+  public async showNPCChooseDialog () {
 	docNpcDialog.COMMON_MODULE.debug("Botão NPCsespecial pressionado, mostrando diálogo...");
 
 	const title = "Escolha um NPC Especial";
@@ -96,7 +97,7 @@ export class NPCDialog {
 
   }
 
-   async callMinsc (frmModule:Module)
+   public async callMinsc (frmModule:Module)
 	{
 		docNpcDialog.COMMON_MODULE.debug("Selecionado Minsc...");
 		docNpcDialog.COMMON_MODULE.NPC_DIALOG.npcSelected = new Minsc();
@@ -104,13 +105,10 @@ export class NPCDialog {
 
 	}
   
-	async warnAboutUpdate  (lastVersion:any){
+	public async warnAboutUpdate  (lastVersion:any){
 	  docNpcDialog.COMMON_MODULE.info(`Atualizando da versão ${lastVersion} para ${NPC_DIALOG_VERSION}`);
 	}
- 
- 
- 
-	 
+  
  
 }  
 
@@ -123,20 +121,34 @@ Hooks.once("ready", async () => {
 });
 */
 
+const alreadyStarted:boolean = false;
+  
 
-Hooks.on("onInitDialogUtils", async (controls) => {
+Hooks.on("onReadyDialogUtils", async (data:any) => {
 	docNpcDialog.COMMON_MODULE.logPrefix("FR:");
  
+	docNpcDialog.COMMON_MODULE.debug("NPCDialog inicalizando...") ;  
+	
+	Hooks.callAll("onInitNPCDialog", { });
 
 	docNpcDialog.COMMON_MODULE.NPC_DIALOG =  new NPCDialog();
 
+
+
+
+	Hooks.on("getSceneControlButtons", async (controls:any) => { 
+		 
+
+		await docNpcDialog.COMMON_MODULE.NPC_DIALOG.addNPCButtons(controls);
+ 
+		docNpcDialog.COMMON_MODULE.debug("NPCDialogButton loaded...") ;  
 	
-	docNpcDialog.COMMON_MODULE.info("NPCDialog inicalizando...") ;  
-	  
+		Hooks.callAll("onLoadNPCDialogButton", { });
+	});
+
+	docNpcDialog.COMMON_MODULE.debug("NPCDialogButton ready...") ;  
+
+	Hooks.callAll("onReadyNPCDialog", { });
 });
 
-
-Hooks.on("getSceneControlButtons", async (controls) => { 
-	await docNpcDialog.COMMON_MODULE.NPC_DIALOG.addNPCButtons(controls);
-});
-
+	
