@@ -11,11 +11,10 @@ To see groupids, see the minsc.groupids.txt file
 
 =Débito==
 1-) Resolver os últimos 3 grupos que carecem de serem usados, tem som? Se sim porque não tem opção pra eles?
-2-) Tentar gerar uma classe base para o Minsc
-3-) Criar o rosto dele e uma tela de chat com a fala pros jogadores em vez de só mandar pro chat
-4-) Tentar enviar pro chat com o rosto e nome dele, se não cancelar o envio pro chat.
-5-) Criar as falas do Brizola, um segundo personagem
-6-) Corrigir o warning:
+2-) Criar o rosto dele e uma tela de chat com a fala pros jogadores em vez de só mandar pro chat
+3-) Tentar enviar pro chat com o rosto e nome dele, se não cancelar o envio pro chat.
+4-) Criar as falas do Brizola, um segundo personagem
+5-) Corrigir o warning:
 accessing the global "AudioHelper" which is now namespaced under foundry.audio.AudioHelper
 Deprecated since Version 12
 Backwards-compatible support will be removed in Version 14

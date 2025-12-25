@@ -33,32 +33,39 @@ export abstract class NPC   {
     public async createDialog (title:string ,content:string,options:Array<any>,submits:Array<any>|null)
 	{
 		const alias = docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.getAlias();
-		const innerSelectOptions = `
-		<option selected="selected" value="minsc-random">Aleatório dado o contexto até aqui</option>
-		` + options.reduce((obj, button) => {
+		 
+		let innerContent=`
+		<DIV class="minsc-actions-buttons">
+			<SELECT>
+				<option selected="selected" value="minsc-random">Aleatório dado o contexto até aqui</option>
+		` ;
+		
+		options.forEach((option)=>{
+
+
 			const backAction:string =  `${alias}-back`; 
 			const sendAction:string =   `${alias}-send`;
 			const cancelction:string =   `${alias}-cancel`;
 
-			if(button.action== backAction||button.action==sendAction||button.action==cancelction){
-				return obj;
+			if(option.action== backAction||option.action==sendAction||option.action==cancelction){
+				return;
 			} 
 
-			const previous = typeof obj === "string" ? obj : `<option value="${obj.action}">${obj.label} </option>obj`;
+			  
+
+			docNPC.COMMON_MODULE.debug("NPC.createDialog:5 for,button:",option);
 	                                                                                   
-			return  `
-				${previous} 
-				<option value="${button.action}">${button.label} </option>
+			innerContent +=  `
+				<option value="${option.action}">${option.label} </option>
 			`;
 		});
 
-		const newContent = `${content}
-			<div class="${alias}-actions-buttons">
-				<SELECT>
-					${innerSelectOptions}
-				</SELECT>
-			</div>
-		`;
+		innerContent+=`
+			</SELECT>
+		</DIV>
+		` ;
+		
+	 
 
 		docNPC.COMMON_MODULE.debug("NPC.createDialog:10",options);
 		docNPC.COMMON_MODULE.debug("NPC.createDialog:15:activeNPC.groups:",
@@ -142,9 +149,9 @@ export abstract class NPC   {
 		const submit = (action:string,label:string,defaultValue:string,callback:any)=>{
 		};
 
-		docNPC.COMMON_MODULE.debug("NPC.createDialog:40 - antes de criar dialogo");
+		docNPC.COMMON_MODULE.debug("NPC.createDialog:40 - antes de criar dialogo, newContent:",innerContent);
 
-		docNPC.COMMON_MODULE.DIALOG_UTILS.createDialog( title ,docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.DEFAULT_STYLE ,newContent,submits,submit);
+		docNPC.COMMON_MODULE.DIALOG_UTILS.createDialog( title ,docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.DEFAULT_STYLE ,innerContent,submits,submit);
 
 		docNPC.COMMON_MODULE.debug("NPC.createDialog:50 - depois de criar dialogo");
 

@@ -191,17 +191,14 @@ const PRAISING_THE_SPEECH:string = "31";
 const FIND_SOMEONE_FAMILIAR:string = "32";
 const I_AM_READY:string = "33";
 const LOSING_INVISIBILITY_MAGIC:string = "35";
-const ONE_QUARTER_LIFE:string = "36";
-const RANDOM:string = "37"; 
+const ONE_QUARTER_LIFE:string = "36"; 
 const NOT_AGREEING_WITH_SOMETHING:string = "38";
 const STEALTHY:string = "39";
 const AFTER_MAGIC_FAILS:string = "40";
 const LOWERING_MORALE:string = "42";
 const ZERO_MORALE = "44"; 
-const ABOUT_THE_BOO  = "47";
 const COMPLAINING_ABOUT_RECEIVING_ORDERS:string = "34";
-const SETTING_A_TRAP:string = "41";
-const LOW_MORALE:string = "43";
+const SETTING_A_TRAP:string = "41"; 
 
 
 const docMinsc = document as FoundryDocument;
@@ -265,7 +262,8 @@ export class Minsc extends NPC  {
 					docMinsc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-durante-a-noite","Durante a noite",true,"action",async ()=> docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.inNight() ),
 					docMinsc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-nao-entendendo","Não entendendo",true,"action",async ()=> docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.notUnderstood() ),
 					docMinsc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-durante-a-noite","Durante a noite",true,"action",async ()=> docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.createAmbush() ),
-					docMinsc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-criando-emboscada","Criar uma Emboscada",true,"action",async ()=> docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.dooingATrapOrAmbush() ),
+					docMinsc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-criando-emboscada","Criar uma Emboscada",true,"action",async ()=> docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.dooingAnAmbush() ),
+					docMinsc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-preparando-armadilha","Preparando uma armadilha",true,"action",async ()=> docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.dooingATrap() ),
 					docMinsc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-se-liberando-de-uma-magia","Se Liberando de Uma Magia",true,"action",async ()=> docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.freeOfTheMagic() ),
 					docMinsc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-exaustao","Exaustão",true,"action",async ()=> docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.exaustion() ),
 					docMinsc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-levando-dano","Levando Dano",true,"action",async ()=> docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.getHurt() ),
@@ -295,27 +293,33 @@ export class Minsc extends NPC  {
 		await docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.send(); 
 	}
 	
-
+	public async iNotReceivedCommands(){
+		docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.groups.add(COMPLAINING_ABOUT_RECEIVING_ORDERS);
+		await docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.send(); 
+	}
 
 	public async complainingAboutGroup() {
-		docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.groups.add(COMPLAINING_ABOUT_THE_GROUP); 
 
-
-		const title = "Minsc: Escolha o que fazer";
-		 
+		const title = "Minsc Reclamando do Grupo: Escolha a situação";
+		
+			 
 		const content = `
 			<div class="select-action">
 			<H1>Escolha uma ação:</H1> `;
 			
-		/** TODO : Melhorar o estilo pros botoes aparecerem de melhor maneira **/
 
+		docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.groups.add(COMPLAINING_ABOUT_THE_GROUP); 
+
+		docMinsc.COMMON_MODULE.debug("complainingAboutGroup:10,before creating buttons"); 
 
 		const buttons =[
 				//ex com parametros		docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.createButton("minsc","Minsc",true,(event, button, dialog) => npcDialog.callMinsc()),
-				docMinsc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-sobre-boo","Sobre o Boo",true,"action",async  ()=> docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.aboutBoo() ),
+				docMinsc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-reclamando-de-receber-ordens","Por Receber Ordens",true,"action",async  ()=> docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.iNotReceivedCommands() )
 			];
+		docMinsc.COMMON_MODULE.debug("complainingAboutGroup:20,before creating the dialog"); 
 
-		docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.createDialog( title ,content,buttons); 
+ 		docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.createDialog( title ,content,buttons);
+
 
 	}
 
@@ -335,7 +339,7 @@ export class Minsc extends NPC  {
 
 	const buttons =[
 			//ex com parametros		docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.createButton("minsc","Minsc",true,(event, button, dialog) => npcDialog.callMinsc()),
-			docMinsc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-vendo-alguem-conhecido","Vendo alguém conhecido",true,"action",async  ()=> docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.seeingSomeoneFamiliar() ),
+			docMinsc.COMMON_MODULE.DIALOG_UTILS.createButton("minsc-vendo-alguem-conhecido","Vendo alguém conhecido",true,"action",async  ()=> docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.seeingSomeoneFamiliar() )
 		];
 
 	docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.createDialog( title ,content,buttons); 
@@ -527,13 +531,6 @@ export class Minsc extends NPC  {
 		await docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.send(); 
 	};
 
-
-
-	public async aboutBoo   () {	
-		docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.groups.add(ABOUT_THE_BOO);
-		await docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.send(); 
-	}; 
-
 	
 	public  async afterMagicFail   () {	
 		docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.groups.add(AFTER_MAGIC_FAILS);
@@ -607,18 +604,19 @@ export class Minsc extends NPC  {
 	  	await docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.send(); 
 	}
 
-   
-	public async dooingATrapOrAmbush () {
+
+	public async dooingATrap () {
+   		docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.groups.add(SETTING_A_TRAP);
+	  	await docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.send(); 
+	}
+
+
+	public async dooingAnAmbush () {
    		docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.groups.add(SETTING_AN_AMBUSH);
 	  	await docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.send(); 
 	}
 
-    
- 	public   async randonAboutBoo () {
-   		docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.groups.add(SETTING_AN_AMBUSH);
-	  	await docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC.send();
-	}
-   
+     
  
  
 }
