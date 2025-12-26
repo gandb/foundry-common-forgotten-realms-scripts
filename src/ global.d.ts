@@ -20,6 +20,10 @@ namespace CONST{
 };
 
 namespace foundry {
+      namespace utils {
+        function mergeObject(options:any,options2:any);
+      }
+
     namespace applications {
       namespace api {
         class DialogV2 {
@@ -35,7 +39,7 @@ namespace foundry {
   }
 
 declare const ChatMessage:{
-    create( chatInfo: ChatInfo,options:any|undefined=undefined);
+    create( chatInfo: any,options:any|undefined=undefined);
     getSpeaker( speakerInfo:SpeakerInfo):any;
 };
 
@@ -52,12 +56,7 @@ private class Game{
 }
 private class Ui{
 }
-
-private class ChatInfo{
-    content:string;
-    speaker:Speaker;
-};
-
+ 
 private class SpeakerInfo{
     alias:string;
 };
@@ -86,7 +85,12 @@ declare class FoundryDocument extends Document{
 
 
 
-
+declare class Application{
+    static get defaultOptions():any;
+    activateListeners(html: any): void ;
+    close();
+    render(value:boolean);
+}
 
 
 declare class NPCDialog {

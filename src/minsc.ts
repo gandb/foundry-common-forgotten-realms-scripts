@@ -205,8 +205,7 @@ const docMinsc = document as FoundryDocument;
 
 
 export class Minsc extends NPC  {
-  
-	readonly name:string = "Minsc" ;
+   
 	readonly DEFAULT_STYLE:string=`
 				<style>
 				.select-action { padding: 20px; background: #222; color: #eee; }
@@ -217,7 +216,7 @@ export class Minsc extends NPC  {
 	lines:any=minscLines;
 
 	constructor() { 
-		super(); 
+		super("Minsc","modules/forgotten-realms/images/npcs/minsc.webp"); 
 
 		docMinsc.COMMON_MODULE.NPC_DIALOG.activeNPC = this;
 

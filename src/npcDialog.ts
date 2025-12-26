@@ -1,5 +1,6 @@
 import {Minsc} from "./minsc";
 import {NPC} from "./npc";
+import { NPCPortraitDialog } from "./npcTalkDialog";
 
 'use strict';
 
@@ -10,15 +11,15 @@ import {NPC} from "./npc";
 To see groupids, see the minsc.groupids.txt file 
 
 =Débito==
-1-) Resolver os últimos 3 grupos que carecem de serem usados, tem som? Se sim porque não tem opção pra eles?
-2-) Criar o rosto dele e uma tela de chat com a fala pros jogadores em vez de só mandar pro chat
-3-) Tentar enviar pro chat com o rosto e nome dele, se não cancelar o envio pro chat.
-4-) Criar as falas do Brizola, um segundo personagem
-5-) Corrigir o warning:
+1-) Tentar enviar pro chat com o rosto e nome dele, se não cancelar o envio pro chat.
+2-) Criar as falas do Brizola, um segundo personagem
+3-) Corrigir o warning:
 accessing the global "AudioHelper" which is now namespaced under foundry.audio.AudioHelper
 Deprecated since Version 12
 Backwards-compatible support will be removed in Version 14
   at Minsc.speak (minsc.js:836:3)
+4-) Tornar genérico envio de eventos entre GM e jogadores, e no chat aparecer Evento X recebido, ignore esta mensagem
+5-) Remover do chat mensagens de eventos
 */
 
 const DEBUG_NPC_DIALOG = true;
@@ -123,7 +124,27 @@ Hooks.once("ready", async () => {
 const alreadyStarted:boolean = false;
   
 
+//com whisper
+
+
 Hooks.on("onReadyDialogUtils", async (data:any) => {
+
+	Hooks.on('createChatMessage', (message: any) => {
+		try {
+			docNpcDialog.COMMON_MODULE.debug("createChatMessage recebido...") ;  
+		// Verifica se é um evento nosso
+		if (message.flags?.['forgotten-realms']?.type === 'npcDialogOnTalk') {
+			const data = message.flags['forgotten-realms'].payload;
+			docNpcDialog.COMMON_MODULE.debug('[NPC Portrait] Evento recebido dos jogadores:', data);
+				
+			NPCPortraitDialog.renderTalk(data);
+		}
+		} catch (e) {
+			docNpcDialog.COMMON_MODULE.error('[NPC Portrait] Erro ao processar evento:', e);
+		}
+	});
+
+
 	docNpcDialog.COMMON_MODULE.logPrefix("FR:");
  
 	docNpcDialog.COMMON_MODULE.debug("NPCDialog inicalizando...") ;  
@@ -139,10 +160,35 @@ Hooks.on("onReadyDialogUtils", async (data:any) => {
 		 
 
 		await docNpcDialog.COMMON_MODULE.NPC_DIALOG.addNPCButtons(controls);
+
+	
+		
+		//com sockets nao funcionou
+		/*
+		(game.socket as any).on('forgotten-realms', (data: any) => {
+			if (data.type === 'npcDialogOnTalk') {
+				docNpcDialog.COMMON_MODULE.debug("recebendo o evento:");
+	 
+				NPCPortraitDialog.renderTalk(data);
+			}
+		});*/
+
+
+		//com hoooks nao funcionou
+
+		/**	Hooks.on('npcDialogOnTalk',async  (data: any) => {
+
+		docNpcDialog.COMMON_MODULE.debug("npcDialogOnTalk received...") ;  
+		NPCPortraitDialog.renderTalk(data);
+		docNpcDialog.COMMON_MODULE.debug("npcDialogOnTalk created...") ;  
+
+	}); */
  
 		docNpcDialog.COMMON_MODULE.debug("NPCDialogButton loaded...") ;  
 	
 		Hooks.callAll("onLoadNPCDialogButton", { });
+
+		
 	});
 
 	docNpcDialog.COMMON_MODULE.debug("NPCDialogButton ready...") ;  

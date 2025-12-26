@@ -1,11 +1,11 @@
 import {NPCDialog} from "./npcDialog";
+import { NPCPortraitDialog } from "./npcTalkDialog";
    
 const docNPC:FoundryDocument = document as FoundryDocument;
 
 
 export abstract class NPC   {
- 
-	abstract readonly name:string ;
+  
 	actor:any;
 	groups:Set<string> = new Set();
 	screens = new Array<Screen|any>();
@@ -14,7 +14,7 @@ export abstract class NPC   {
 	abstract lines:any;
 	RANDOM_GROUP:string = "37";
 
-	constructor(){
+	constructor(public readonly name:string, public readonly imageUrl:string ){
  		this.screens.push({name:"npc-dialog",callback:docNPC.COMMON_MODULE.NPC_DIALOG.showNPCChooseDialog});		
 	}
  
@@ -227,17 +227,45 @@ export abstract class NPC   {
 
 	public async speak  (lineIndex:number){
 		const line = docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.lines[lineIndex];
-
-		docNPC.COMMON_MODULE.debug("line:",line);
-
+ 
 
 		docNPC.COMMON_MODULE.debug("speak:talk:",line);
-		ChatMessage.create({
-			content: line,
-			speaker: ChatMessage.getSpeaker({
-				alias: docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.actor.name
-			})
+	 
+
+		docNPC.COMMON_MODULE.debug("disparando o evento pra todo mundo:");
+
+
+  
+   		 console.log('[NPC Portrait] Enviando para todos...');
+    
+		// Cria uma mensagem invisível que todos recebem
+		await ChatMessage.create({
+		content: 'NPC Portrait Event', // Invisível pra maioria
+		whisper: Array.from(game.users?.values() || []).map((u: any) => u.id),
+		flags: {
+			'forgotten-realms': {
+			type: 'npcDialogOnTalk',
+			payload:  {imageUrl:this.imageUrl,npcName:this.name,dialogText:line}
+			}
+		}
 		});
+	
+ 
+		//com socket nao funcionou
+		/*
+		if (game.user?.isGM) {
+			(game.socket as any).emit('forgotten-realms', {
+				type: 'npcDialogOnTalk',
+				data: {imageUrl:this.imageUrl,npcName:this.name,dialogText:line},
+			});
+		} 
+			*/
+
+		//com hooks nao funcionou		
+		//Hooks.callAll('npcDialogOnTalk',  {imageUrl:this.imageUrl,npcName:this.name,dialogText:line});
+
+		docNPC.COMMON_MODULE.debug(" evento disparado pra todo mundo:");
+
 
 		const formatedIndex = lineIndex.toString().padStart(3, '0'); 
 		const name =  docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.name;
@@ -323,3 +351,6 @@ export abstract class NPC   {
  
  
 }
+
+
+
