@@ -5,6 +5,7 @@ const docNPC:FoundryDocument = document as FoundryDocument;
 
 let npcDialog:NPCDialog;
 
+const RANDOM_GROUP:string = "999";
 
 export abstract class NPC   {
   
@@ -20,7 +21,6 @@ export abstract class NPC   {
 	screens = new Array<Screen|any>(); 
 	abstract groupToLines:Map<string,string>;
 	abstract lines:any;
-	RANDOM_GROUP:string = "999";
 
 	constructor(public readonly name:string, public readonly imageUrl:string ){ 
 		npcDialog = docNPC.COMMON_MODULE.NPC_DIALOG;
@@ -47,9 +47,9 @@ export abstract class NPC   {
 		const alias = npcDialog.activeNPC.getAlias();
 		 
 		let innerContent=`
-		<DIV class="minsc-actions-buttons">
+		<DIV class="${alias}-actions-buttons">
 			<SELECT>
-				<option selected="selected" value="minsc-random">Aleatório dado o contexto até aqui</option>
+				<option selected="selected" value="${alias}-random">Aleatório dado o contexto até aqui</option>
 		` ;
 		
 		options.forEach((option)=>{
@@ -93,7 +93,7 @@ export abstract class NPC   {
 	
 					docNPC.COMMON_MODULE.debug("NPC.createDialog [10]: Escolhido a opcao enviar");					
 
-					const queryResult = docNPC.querySelector(".minsc-actions-buttons SELECT") as HTMLSelectElement || null;
+					const queryResult = docNPC.querySelector(`.${alias}-actions-buttons SELECT`) as HTMLSelectElement || null;
 					const result = queryResult?.value;
 
 					if(result===null || result===undefined){
@@ -148,7 +148,7 @@ export abstract class NPC   {
 
 				}),
 				docNPC.COMMON_MODULE.DIALOG_UTILS.createButton("cancel","Cancelar",true,"action",async ()=> {
-					docNPC.COMMON_MODULE.debug("NPC.Cancelado a tela do minsc"); 
+					docNPC.COMMON_MODULE.debug("NPC.Cancelado a tela do ",alias); 
 				})
 			];	
 
@@ -176,9 +176,13 @@ export abstract class NPC   {
 
 		const groups = Array.from(groupsUnordered).map(Number).sort((a, b) => a - b);
 
-		if(groups.length === 0) {
+		if(groups.length === 0 && groupsUnordered.size===0) {
 			return new Array();
 		} 
+
+		if(groups.length === 0){
+			groups.push(parseInt(groupsUnordered.get(0),10));
+		}
 
 		if(groups.length==1)
 		{
@@ -307,7 +311,7 @@ export abstract class NPC   {
 	
 	public  async send(removeLastGroup=true) {
 			if(npcDialog.activeNPC.groups.size === 0) {
-				npcDialog.activeNPC.groups.add(npcDialog.activeNPC.RANDOM_GROUP);
+				npcDialog.activeNPC.groups.add(RANDOM_GROUP);
 			} 
 	
 			const list = await npcDialog.activeNPC.getListLinesFromGroup(npcDialog.activeNPC.groups);
@@ -365,15 +369,14 @@ export abstract class NPC   {
 		
 			activeScreen.callback();
 
-	
-			const lastIsRandom = npcDialog.activeNPC.groups.has(npcDialog.activeNPC.RANDOM_GROUP); 
-			removeLastGroup = removeLastGroup || lastIsRandom;
-			docNPC.COMMON_MODULE.debug("NPC.send, onlyRandom,removeLastGroup:", lastIsRandom,",",removeLastGroup);
+			npcDialog.activeNPC.groups.delete(RANDOM_GROUP);
 
 			if(removeLastGroup)
 			{
 				npcDialog.activeNPC.decrementGroup();
 			}
+
+
 			docNPC.COMMON_MODULE.debug("NPC.send, afterSend:",npcDialog.activeNPC.groups	);
 		
 	}
