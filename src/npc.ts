@@ -3,26 +3,38 @@ import { NPCPortraitDialog } from "./npcTalkDialog";
    
 const docNPC:FoundryDocument = document as FoundryDocument;
 
+let npcDialog:NPCDialog;
+
 
 export abstract class NPC   {
   
+	readonly DEFAULT_STYLE:string=`
+					<style>
+					.select-action { padding: 20px; background: #222; color: #eee; }
+					.select-action button { margin: 5px; padding: 5px 10px; }
+					.brizola-actions-buttons {  display: flex; flex-direction: column; gap: 8px; }
+				`;
+
 	actor:any;
 	groups:Set<string> = new Set();
-	screens = new Array<Screen|any>();
-	abstract readonly DEFAULT_STYLE:string;
+	screens = new Array<Screen|any>(); 
 	abstract groupToLines:Map<string,string>;
 	abstract lines:any;
-	RANDOM_GROUP:string = "37";
+	RANDOM_GROUP:string = "999";
 
-	constructor(public readonly name:string, public readonly imageUrl:string ){
- 		this.screens.push({name:"npc-dialog",callback:docNPC.COMMON_MODULE.NPC_DIALOG.showNPCChooseDialog});		
+	constructor(public readonly name:string, public readonly imageUrl:string ){ 
+		npcDialog = docNPC.COMMON_MODULE.NPC_DIALOG;
+		docNPC.COMMON_MODULE.debug("NPC.constructor: COMMON_MODULE:",docNPC.COMMON_MODULE);
+		docNPC.COMMON_MODULE.debug("NPC.constructor: npcDialog:",npcDialog);
+		docNPC.COMMON_MODULE.debug("NPC.constructor: npcDialog.showNPCChooseDialog:",npcDialog.showNPCChooseDialog);
+ 		this.screens.push({name:"npc-dialog",callback:npcDialog.showNPCChooseDialog});		
 	}
  
 	public  decrementGroup (){
-		const array = [...docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.groups];
+		const array = [...npcDialog.activeNPC.groups];
 		const last = array.at(-1);
 		const newArray = array.slice(0, -1); 
-		docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.groups =new Set(newArray);
+		npcDialog.activeNPC.groups =new Set(newArray);
 
 	}
 
@@ -32,7 +44,7 @@ export abstract class NPC   {
 
     public async createDialog (title:string ,content:string,options:Array<any>,submits:Array<any>|null)
 	{
-		const alias = docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.getAlias();
+		const alias = npcDialog.activeNPC.getAlias();
 		 
 		let innerContent=`
 		<DIV class="minsc-actions-buttons">
@@ -69,7 +81,7 @@ export abstract class NPC   {
 
 		docNPC.COMMON_MODULE.debug("NPC.createDialog:10",options);
 		docNPC.COMMON_MODULE.debug("NPC.createDialog:15:activeNPC.groups:",
-		docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.groups);
+		npcDialog.activeNPC.groups);
 
 		if(!submits){
 			
@@ -77,7 +89,7 @@ export abstract class NPC   {
 
 			submits = [
 				docNPC.COMMON_MODULE.DIALOG_UTILS.createButton("send","Enviar",true,"action",async ()=> {
-					docNPC.COMMON_MODULE.debug("NPC.createDialog, before creating send:",docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.groups	);
+					docNPC.COMMON_MODULE.debug("NPC.createDialog, before creating send:",npcDialog.activeNPC.groups	);
 	
 					docNPC.COMMON_MODULE.debug("NPC.createDialog [10]: Escolhido a opcao enviar");					
 
@@ -94,11 +106,11 @@ export abstract class NPC   {
 
 					if(result===`${alias}-random`)
 					{
-						const lastScreen  = docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.screens.at(-1);
-						docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.screens.push( {name:result,callback:docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.send,type:lastScreen.type} );
-						docNPC.COMMON_MODULE.debug("NPC.createDialog, before  random send:",docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.groups	);	
-						docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.send(false);
-						docNPC.COMMON_MODULE.debug("NPC.createDialog, after random send:",docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.groups	);
+						const lastScreen  = npcDialog.activeNPC.screens.at(-1);
+						npcDialog.activeNPC.screens.push( {name:result,callback:npcDialog.activeNPC.send,type:lastScreen.type} );
+						docNPC.COMMON_MODULE.debug("NPC.createDialog, before  random send:",npcDialog.activeNPC.groups	);	
+						npcDialog.activeNPC.send(false);
+						docNPC.COMMON_MODULE.debug("NPC.createDialog, after random send:",npcDialog.activeNPC.groups	);
 	
 						return;
 					}
@@ -108,9 +120,9 @@ export abstract class NPC   {
 						}
 
 						docNPC.COMMON_MODULE.debug("NPC.Enviado a opcao :" + result );
-						docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.screens.push({name:result,callback:button.callback,type:button.type} );
+						npcDialog.activeNPC.screens.push({name:result,callback:button.callback,type:button.type} );
 						button.callback();
-						docNPC.COMMON_MODULE.debug("NPC.createDialog, after 3 creating send:",docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.groups	);
+						docNPC.COMMON_MODULE.debug("NPC.createDialog, after 3 creating send:",npcDialog.activeNPC.groups	);
 	
 						return;
 					});
@@ -118,16 +130,16 @@ export abstract class NPC   {
 				}),
 				docNPC.COMMON_MODULE.DIALOG_UTILS.createButton("back","Voltar",true,"action",async ()=> {
 
-					docNPC.COMMON_MODULE.debug("NPC.screens ao voltar - antes: ",docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.screens	);
+					docNPC.COMMON_MODULE.debug("NPC.screens ao voltar - antes: ",npcDialog.activeNPC.screens	);
 					 
-					const previousLastScreen = docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.screens.at(-2);
-					const lastScreen = docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.screens.pop();		
+					const previousLastScreen = npcDialog.activeNPC.screens.at(-2);
+					const lastScreen = npcDialog.activeNPC.screens.pop();		
 					docNPC.COMMON_MODULE.debug("lastScreen:", lastScreen)
-					docNPC.COMMON_MODULE.debug("screens ao voltar - depois: ",docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.screens	);
+					docNPC.COMMON_MODULE.debug("screens ao voltar - depois: ",npcDialog.activeNPC.screens	);
 					
 					if(lastScreen.type=="screen-context")
 					{
-						docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.decrementGroup();
+						npcDialog.activeNPC.decrementGroup();
 					}
 
 					previousLastScreen.callback();
@@ -151,7 +163,7 @@ export abstract class NPC   {
 
 		docNPC.COMMON_MODULE.debug("NPC.createDialog:40 - antes de criar dialogo, newContent:",innerContent);
 
-		docNPC.COMMON_MODULE.DIALOG_UTILS.createDialog( title ,docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.DEFAULT_STYLE ,innerContent,submits,submit);
+		docNPC.COMMON_MODULE.DIALOG_UTILS.createDialog( title ,npcDialog.activeNPC.DEFAULT_STYLE ,innerContent,submits,submit);
 
 		docNPC.COMMON_MODULE.debug("NPC.createDialog:50 - depois de criar dialogo");
 
@@ -173,7 +185,7 @@ export abstract class NPC   {
 			return groups;
 		}
 		
-		let combinations = await docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.getCombinations(groups);
+		let combinations = await npcDialog.activeNPC.getCombinations(groups);
 		docNPC.COMMON_MODULE.debug("groups:",groups);
 		docNPC.COMMON_MODULE.debug("keys:",combinations);
 		 
@@ -203,9 +215,9 @@ export abstract class NPC   {
 			let combinationKey = numbers.join(";") 
 			docNPC.COMMON_MODULE.debug("combinationKey:",combinationKey);
 
-			docNPC.COMMON_MODULE.debug("groupToLines:",docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.groupToLines,"-",typeof combinationKey);
+			docNPC.COMMON_MODULE.debug("groupToLines:",npcDialog.activeNPC.groupToLines,"-",typeof combinationKey);
 
-			if(docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.groupToLines.has(combinationKey)) {
+			if(npcDialog.activeNPC.groupToLines.has(combinationKey)) {
 				docNPC.COMMON_MODULE.debug("find, return the combination");
 				ret.push(combinationKey);
 				return ret;
@@ -226,7 +238,7 @@ export abstract class NPC   {
 	}
 
 	public async speak  (lineIndex:number){
-		const line = docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.lines[lineIndex];
+		const line = npcDialog.activeNPC.lines[lineIndex];
  
 
 		docNPC.COMMON_MODULE.debug("speak:talk:",line);
@@ -268,7 +280,7 @@ export abstract class NPC   {
 
 
 		const formatedIndex = lineIndex.toString().padStart(3, '0'); 
-		const name =  docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.name;
+		const name =  npcDialog.activeNPC.name;
 		const src = `modules/forgotten-realms/sounds/npcs/${name}/${formatedIndex}/${name}${formatedIndex}.ogg`;
 		await AudioHelper.preloadSound(src);
 		AudioHelper.play({ src, autoplay: true }, true);
@@ -277,11 +289,11 @@ export abstract class NPC   {
  
 	
 	public  async send(removeLastGroup=true) {
-			if(docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.groups.size === 0) {
-				docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.groups.add(docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.RANDOM_GROUP);
+			if(npcDialog.activeNPC.groups.size === 0) {
+				npcDialog.activeNPC.groups.add(npcDialog.activeNPC.RANDOM_GROUP);
 			} 
 	
-			const list = await docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.getListLinesFromGroup(docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.groups);
+			const list = await npcDialog.activeNPC.getListLinesFromGroup(npcDialog.activeNPC.groups);
 			
 		 
 			docNPC.COMMON_MODULE.debug("NPC.send, before send,list:",list);
@@ -292,7 +304,7 @@ export abstract class NPC   {
 		
 				const group = groupNumber.toString();
 				docNPC.COMMON_MODULE.debug("group:",group);
-				if(!docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.groupToLines.has(group))
+				if(!npcDialog.activeNPC.groupToLines.has(group))
 				{
 					docNPC.COMMON_MODULE.warn(`NPC.send, afterSend:Grupo ${group} não encontrado em groupToLines!`);
 					continue;
@@ -301,7 +313,7 @@ export abstract class NPC   {
 				const size = group.split(";").length +1;
 
 		
-				const linesForThisGroupConcat:string =  docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.groupToLines.get(group) as string;
+				const linesForThisGroupConcat:string =  npcDialog.activeNPC.groupToLines.get(group) as string;
 				docNPC.COMMON_MODULE.debug("NPC.send, 50,linesForThisGroupConcat:",linesForThisGroupConcat,"-size:",size);
 
 				const linesForThisGroup = linesForThisGroupConcat.split(";"); 
@@ -326,26 +338,26 @@ export abstract class NPC   {
 			docNPC.COMMON_MODULE.debug("NPC.send, afterSend,lineIndex:",lineIndex);
 
 
-			docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.speak(lineIndex);
+			npcDialog.activeNPC.speak(lineIndex);
 	
 
-			docNPC.COMMON_MODULE.debug("NPC.send, afterSend,activeScreen:",docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.screens	);
+			docNPC.COMMON_MODULE.debug("NPC.send, afterSend,activeScreen:",npcDialog.activeNPC.screens	);
 		
-			const activeScreen = docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.screens.at(-2);
-			docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.screens.pop();
+			const activeScreen = npcDialog.activeNPC.screens.at(-2);
+			npcDialog.activeNPC.screens.pop();
 		
 			activeScreen.callback();
 
 	
-			const lastIsRandom = docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.groups.has(docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.RANDOM_GROUP); 
+			const lastIsRandom = npcDialog.activeNPC.groups.has(npcDialog.activeNPC.RANDOM_GROUP); 
 			removeLastGroup = removeLastGroup || lastIsRandom;
 			docNPC.COMMON_MODULE.debug("NPC.send, onlyRandom,removeLastGroup:", lastIsRandom,",",removeLastGroup);
 
 			if(removeLastGroup)
 			{
-				docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.decrementGroup();
+				npcDialog.activeNPC.decrementGroup();
 			}
-			docNPC.COMMON_MODULE.debug("NPC.send, afterSend:",docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.groups	);
+			docNPC.COMMON_MODULE.debug("NPC.send, afterSend:",npcDialog.activeNPC.groups	);
 		
 	}
  

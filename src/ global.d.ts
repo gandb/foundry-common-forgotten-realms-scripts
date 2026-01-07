@@ -92,25 +92,7 @@ declare class Application{
     render(value:boolean);
 }
 
-
-declare class NPCDialog {
-
-    npcSelected:NPC|any;
-    activeNPC:NPC|any;
-    npcs:Map<string,NPC>=new Map();
-    buttonloaded:boolean;
-
-
-    async addNPCButtons (controls:any) ;
-
-    async showNPCChooseDialog ();
-
-    async callMinsc (frmModule:Module);
-
-    async warnAboutUpdate  (lastVersion:any);
-
-}  
-
+ 
 
 
 declare const docs:any|FoundryDocument ;
