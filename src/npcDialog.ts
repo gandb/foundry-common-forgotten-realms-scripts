@@ -10,6 +10,13 @@ import { NPCPortraitDialog } from "./npcTalkDialog";
 /*
 To see groupids, see the minsc.groupids.txt file 
 
+==Primeiro os erros==
+
+Erros
+1-)mins ao durante a noite:
+mensagens erradas e fora de contexto depois da primeira mensagem
+2-)-brizola nao funciona
+
 =Débito==
 1-) Criar as falas do Brizola, um segundo personagem (brizola.ts)
 	1.1-) Texto - OK

@@ -53,16 +53,17 @@ export class Brizola extends NPC  {
 				<H1>Escolha uma ação:</H1> `;
 
 			commonModule.debug("startScreen:20. criando botoes"); 
+	    const callback: any = npcDialog.activeNPC.createcallbackSend;
 
 			const buttons = [
           dialogUtils.createButton("brizola-about-enviroment","Sobre o ambiente",true,"screen",async ()=> npcDialog.activeNPC.aboutEnviroment() ),
 					dialogUtils.createButton("brizola-about-weather","Sobre o clima",true,"screen",async ()=> npcDialog.activeNPC.aboutWeather() ),
-          dialogUtils.createButton("brizola-about-combat","Sobre o clima",true,"screen",async ()=> npcDialog.activeNPC.aboutCombat() ),
-          dialogUtils.createButton("brizola-social-interaction","Sobre o clima",true,"screen",async ()=> npcDialog.activeNPC.socialInteraction() ),
+          dialogUtils.createButton("brizola-about-combat","Em combate",true,"screen",async ()=> npcDialog.activeNPC.aboutCombat() ),
+          dialogUtils.createButton("brizola-social-interaction","Interagindo Socialmente",true,"screen",async ()=> npcDialog.activeNPC.socialInteraction() ),
           dialogUtils.createButton("brizola-about-party","Sobre o grupo",true,"screen",async ()=> npcDialog.activeNPC.aboutParty() ),
-          dialogUtils.createButton("brizola-exhausted", "Exaustão / Sono", true, "action", async () => npcDialog.activeNPC.speak(Groups.EXHAUSTED_AND_SLEEPY)),
-          dialogUtils.createButton("brizola-weight", "Sobrecarga de Peso", true, "action", async () => npcDialog.activeNPC.speak(Groups.EXCESS_WEIGHT)),
-          dialogUtils.createButton("brizola-item", "Achou Item Legal", true, "action", async () => npcDialog.activeNPC.speak(Groups.FIND_SOME_PECULIAR_ITEM)),
+          dialogUtils.createButton("brizola-exhausted", "Exaustão / Sono", true, "action", callback(Groups.EXHAUSTED_AND_SLEEPY)),
+          dialogUtils.createButton("brizola-weight", "Sobrecarga de Peso", true, "action", callback(Groups.EXCESS_WEIGHT)),
+          dialogUtils.createButton("brizola-item", "Achou Item Interessante", true, "action", callback(Groups.FIND_SOME_PECULIAR_ITEM)),
         ];
 
 			commonModule.debug("startScreen:30 depois de criado botoes"); 
@@ -75,9 +76,11 @@ export class Brizola extends NPC  {
  
 
   
- 	public async createcallbackSend(group:number){
+ 	public createcallbackSend(group:number){
     return async ()=>{
+		commonModule.debug("callback em createcallbackSend acionada :group",group); 
     	npcDialog.activeNPC.groups.add(group);
+		commonModule.debug("callback em createcallbackSend depois antes de enviar :npcDialog.activeNPC.groups.",npcDialog.activeNPC.groups); 
 		  await npcDialog.activeNPC.send(); 
     };
 	}
@@ -96,10 +99,9 @@ export class Brizola extends NPC  {
 
 		const buttons =[
 				//ex com parametros		docbrizola.COMMON_MODULE.NPC_DIALOG.activeNPC.createButton("brizola","brizola",true,(event, button, dialog) => npcDialog.callbrizola()),
-				dialogUtils.createButton("brizola-em-batalha","Entrando em Batalha",true,"screen-context",  callback(Groups.ENTERING_BATTLE) ),
 				dialogUtils.createButton("brizola-numa-cidade","Numa Cidade",true,"action", callback(Groups.ENTERING_CITY )  ),
 				dialogUtils.createButton("brizola-na-floresta","Na Floresta",true,"action", callback(Groups.ENTERING_FOREST) ),
-				dialogUtils.createButton("brizola-dark-place","Entrando num lugar escuro e assustador",true,callback(Groups.ENTERING_DARK_PLACE) ), 
+				dialogUtils.createButton("brizola-dark-place","Entrando num lugar escuro e assustador",true,"action",callback(Groups.ENTERING_DARK_PLACE) ), 
 				dialogUtils.createButton("brizola-glommy-place","Entrando num lugar iluminado mas assustador",true,"action",callback(Groups.ENTERING_DARK_PLACE) ), 
 				dialogUtils.createButton("brizola-sacred-place","Entrando num lugar sagrado",true,"action",callback(Groups.ENTERING_SACRED_PLACE) )
 			];
@@ -155,6 +157,7 @@ export class Brizola extends NPC  {
 
      const buttons = [
       // --- COMBATE E SAÚDE ---
+	  	dialogUtils.createButton("brizola-em-batalha","Entrando em Batalha",true,"action",  callback(Groups.ENTERING_BATTLE) ),
       dialogUtils.createButton("brizola-hurt", "Levando Dano", true, "action", callback(Groups.GETTING_HURT)),
       dialogUtils.createButton("brizola-health-50", "Vida abaixo de 50%", true, "action", callback(Groups.BELOW_FIFTY_PERCENT_HEALTH)),
       dialogUtils.createButton("brizola-health-25", "Vida abaixo de 25%", true, "action", callback(Groups.BELOW_TWENTY_FIVE_PERCENT_HEALTH)),

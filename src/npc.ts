@@ -161,7 +161,7 @@ export abstract class NPC   {
 		const submit = (action:string,label:string,defaultValue:string,callback:any)=>{
 		};
 
-		docNPC.COMMON_MODULE.debug("NPC.createDialog:40 - antes de criar dialogo, newContent:",innerContent);
+		docNPC.COMMON_MODULE.debug("NPC.createDialog:40 - antes de criar dialogo");
 
 		docNPC.COMMON_MODULE.DIALOG_UTILS.createDialog( title ,npcDialog.activeNPC.DEFAULT_STYLE ,innerContent,submits,submit);
 
@@ -282,9 +282,26 @@ export abstract class NPC   {
 		const formatedIndex = lineIndex.toString().padStart(3, '0'); 
 		const name =  npcDialog.activeNPC.name;
 		const src = `modules/forgotten-realms/sounds/npcs/${name}/${formatedIndex}/${name}${formatedIndex}.ogg`;
-		await AudioHelper.preloadSound(src);
-		AudioHelper.play({ src, autoplay: true }, true);
-		 
+		const ret = await this.playSoundWithNoEffect(src);
+		docNPC.COMMON_MODULE.debug("Retorno do play:",ret );
+	}
+
+	private async playSoundWithNoEffect(src:string):Promise<boolean>{
+		try{
+			const response = await fetch(src, { method: 'HEAD' });
+			if (!response.ok) {
+				console.warn(`Arquivo não encontrado: ${src} (${response.status})`);
+				return false;  
+			}
+			
+			
+			AudioHelper.play({ src, autoplay: true }, true);
+			return true;  
+		}
+		catch(error:any){
+			docNPC.COMMON_MODULE.error("Erro ao reproduzir o som:",src,error);
+			return false;  
+		}
 	}
  
 	

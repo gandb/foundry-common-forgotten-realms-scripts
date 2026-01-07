@@ -48,7 +48,7 @@ declare const game:any|Game = new Game();
 declare const ui:any|Ui = new Ui();
 
 declare const AudioHelper:{
-    preloadSound(path:string):Promise<void>;
+    preloadSound(path:string):Promise<any>;
     play(playInfo:PlayInfo,autoplay:boolean):void;
 };
 
