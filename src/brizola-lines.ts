@@ -1,31 +1,31 @@
  
 export const brizolaLines:any = {
 	//ensolarado
-  1: "Tchê, que sol de meu Deus! Tá mais quente que o suor de gaúcho depois de domar potro bravo!",
- 2: "Opa, esse sol tá me lembrando dos campos da Costa da Espada. Trilegal, companhero!",
-  4: "Que raio de luminosidade é essa? Tá mais claro que olho de porco cozido aqui!",
+  1: "Tchê, que sol de meu Deus! Tá mais quente que o suor de gaúcho depois de domar potro xucro!",
+  2: "Opa, esse sol tá me lembrando dos campos da Costa da Espada. Trilegal, companhero!",
+  4: "Que raio de clarão é esse? Tá mais feio de enxergar que olho de porco assado no espeto!",
   5: "Por Tarastia que eu não xingo! Esse sol tá forçando a barra, mas nós segue firme no piquete!",
-   6: "Por Tarastia que eu não xingo! Esse sol tá forçando a barra, mas nós segue firme no piquete e que trilegal estar aqui!",
-  7: "Esse sol aí tá me assando como churrasco de fim de semana. Que privilégio, viu!",
+   6: "Por Tarastia que eu não xingo! Esse sol tá forçando o lombo, mas nós segue firme no piquete!",
+  7: "Esse sol aí tá me assando como costelão em fogo de chão. Um privilégio p'ra quem tem couro grosso!",
   8: "Ó, que escaldante! Tá tudo branco de luz, pior que olhar pro fogo sem piscar!",
-  9: "Tchê, que luminozidade! Tá tudo resplandecendo trilegal de se ver, companhero!",
-  10: "Por Tarastia, que Sol, tá me fritando aqui! Mas que bom estar nesse aberto, sob esse sol lindo demais!",
+  9: "Tchê, que luminozidade de fundamento! Tá tudo resplandecendo trilegal de se ver, companhero!",
+  10: "Por Tarastia, que Sol, tá me fritando os miolos! Mas que bom estar nesse aberto, sob essa luz baguala!",
   //nublado
-  11: "Tchê, que nuvem desgraçada! Tá tudo cinzento que nem bucha de chimarrão!",
+  11: "Tchê, que nuvem desgraçada! Tá tudo cinzento que nem bucha de chimarrão amanhecido!",
   12: "Opa, esse tempo nublado tá me deixando meio casmurro, sabe? Falta aquele solzão pra animar - era trilegal ter mais luz!",
   13: "Meu Deus, que céu fechado! Parece que tá chovendo pensamento ruim por cima da gente!",
   14: "Que pouca luz! Tá tudo meio escuro, meio cinzento... bah, isso me deixa meio murcho!",
   15: "Ó, que tempo chato de meu Deus! Mas bah, a gente segue firme do mesmo jeito, viu!",
-  16: "Tchê, que nublazão! Tá tudo cinzento que nem barba de gaúcho de três dias!",
+  16: "Tchê, que nublazão! Tá tudo cinzento que nem barba de veterano de guerra de três dias!",
   17: "Esse tempo nublado tá me deixando pra baixo, mas que nada! Vamo bater com tudo mesmo assim!",
   18: "Meu Deus do céu, que penumbra desgovernada! Faz parecer que tá tudo meio triste, sabe?",
   19: "Que nuvem imunda! Parece que o céu tá de mau humor pra cima da gente, companhero!",
   20: "Por Tarastia! Esse tempo nublado tá meio chato, mas conheci piores. Vamo tocando o barco!",
   //chovendo
-  21: "Bah! Essa chuva não é nada, já enfrentei piores nas pampas da Costa Selvagem! Venha, vamo se molhar junto mesmo!",
+  21: "Bah! Essa chuva não é nada, já enfrentei piores nas pampas da Costa Selvagem!  Venha, vamo molhar o pelego junto!",
   22: "Por Tarastia! Que chuvarada desgraçada! Mas isso não vai me frear, não senhor!",
   23: "Sabe, essa chuva me lembra os pampeiros lá do sul... Traz uma sensação de estar em casa, tchê!",
-  24: "Que tempero que essa chuva tá dando! Vamo aproveitar e avançar enquanto esses desgraçados tão ocupados se protegendo!",
+  24: "Que tempero que essa chuva tá dando! Vamo aproveitar e avançar enquanto esses cuscos se escondem da água!",
   25: "Bah, a chuva faz a grama crescer e o couro ficar mais resistente! Isso é bênção de Tarastia!",
   26: "Cuidado aí, a lama pode ser traiçoeira! Mas pra um gaúcho como eu, é terreno perfeito!",
   27: "Essa chuva não vai me derrotar! Vou ficar de pé como um ombú na tempestade!",
@@ -33,7 +33,7 @@ export const brizolaLines:any = {
   29: "Por Tarastia, que chuva mais gelada! Mas aquece o coração quando a gente tá acompanhado de valentes como vocês!",
   30: "A chuva lava a poeira, limpa a alma! Vamo seguir em frente com os corações mais leves!",
   //ao lado de uma fogueira
-  31: "Bah! Nada melhor que uma boa fogueira pra aquecer a alma depois de um dia de luta! Venha, sente-se aqui comigo!",
+  31: "Bah! Nada melhor que um fogo de chão pra aquecer a alma depois da peleia! Achegue-se, vivente!",
   32: "Essa chama me lembra as noites na estância, quando a gente se juntava pra contar história... Por Tarastia, que saudade!",
   33: "Sabe, uma fogueira é como um bom companheiro - quanto mais tempo você fica perto, mais calor recebe no peito!",
   34: "Vamo aproveitar essa fogueira pra descansar os ossos! Amanhã a gente volta à luta com mais gana!",
@@ -41,7 +41,7 @@ export const brizolaLines:any = {
   36: "Por Tarastia! Esse calor é abençoado! Que trilegal demais, melhor que qualquer poção mágica, acreditem em mim!",
   37: "Senta aqui perto, não tenha medo das chamas! O fogo purifica, o fogo cura, o fogo nos fortalece!",
   38: "Quantas histórias dessa fogueira já ouviu? Pois bem, agora vai ouvir as minhas!",
-  39: "Bah, um mate quentinho nessa fogueira seria de arrebatar! Mas fazer o quê, aqui em Toril não tem cultura!",
+  39: "Bah, um mate quentinho nessa fogueira seria de arrebatar o coração! Mas fazer o quê, aqui em Toril não tem cultura!",
   40: "Essa fogueira é nosso refúgio, nossa fortaleza de calor e camaradagem! Que Tarastia nos proteja essa noite!",
   //Explicando quem é Tarástia?
    41: "Tarastia é diferente desses deuses daqui, sabe? Ela foi mortal como a gente, mas ascendeu à divindade por sua coragem e poder! Agora é uma imortal verdadeira!",
@@ -58,7 +58,7 @@ export const brizolaLines:any = {
  //entrando em combate
   51: "Bah! Finalmente chegou a hora! Vamo dançar com esses desgraçados, que a festa comece!",
   52: "Por Tarastia! Meu coração tá acelerado, minhas mãos tremendo de vontade - isso é o melhor que existe, tchê!",
-   53: "Venha, vamo show! Não tenha medo, o combate é trilegal demais, é onde a gente se sente vivo de verdade!",
+   53: "Venha, vamo show! Não tenha medo, a peléia é de fundamento, é quando a gente se sente vivo de verdade!",
   54: "Bah, que emoção! Nada melhor que um bom combate pra começar o dia! Vamo ver do que vocês são capazes!",
   55: "Por Tarastia! Esses inimigos não sabem em que se meteram! Vamo lhes mostrar como se luta de verdade!",
   56: "Sabe, eu amo um bom combate - é aqui que a gente prova quem é valente e quem é covarde! Bora lá!",
@@ -67,14 +67,14 @@ export const brizolaLines:any = {
   59: "Bah, adoro quando chega essa hora! O combate é meu lugar, é onde eu brilho! Vamo lá, venham com tudo!",
 
   //ele se machucando
-  60: "Ai, que golpe desgraçado! Mas vamo ver quem tá rindo no final dessa história!",
+  60: "Ai, que talhada desgraçada! Mas vamo ver quem tá rindo no final dessa história!",
   61: "Bah! Ferimento é só uma cicatriz em espera! Vou continuar lutando até o último suspiro!",
   62: "Por Tarastia! Meu sangue tá quente agora! Isso só me deixa mais furioso, mais determinado!",
   63: "Ai, desgraçado! Mas vamo continuar - ferimento não vai me frear, não senhor!",
   64: "Bah, que dor! Mas sabe, o combate sem dor não é combate de verdade, é brincadeira de criança!",
   65: "Por Tarastia, que pancada! Mas isso só prova que tô no lugar certo, na luta que importa!",
-  66: "Ow! Esse bicho tem garra mesmo! Respeito, mas não vou desistir, tchê!",
-  67: "Bah, tá sangrando aqui! Mas já levei ferimento pior montado em cavalo desembestado!",
+  66: "Ow! Esse cusco tem garra mesmo! Respeito, mas não vou desistir, tchê!",
+  67: "Bah, tá sangrando o lombo! Mas já levei ferimento pior  montado em potro desembestado no meio do mato!",
   68: "Por Tarastia! A dor me lembra que tô vivo! Que tô realmente nessa luta importante!",
   
   //menos de 50% de vida
@@ -89,7 +89,7 @@ export const brizolaLines:any = {
   77: "Tô chegando perto do limite... sinto o frio chegando... mas ainda tenho força pra um último golpe!",
 
   //menos de 25% de vida
-	78: "Bah... acho que essa é... minha última luta mesmo... Por Tarastia, foi uma honra lutar ao lado de vocês!",
+	78: "Bah... acho que tô dobrando o pelego... Por Tarastia, foi uma honra lutar ao lado de vocês!",
   79: "Meu corpo não aguenta mais... as forças tão indo embora... mas meu espírito vai ficar com vocês!",
   80: "Se isso é o fim... pelo menos caio lutando, como um gaúcho de verdade deveria cair!",
   81: "Por Tarastia... perdoe minhas fraquezas... eu fiz o melhor que pude nessa vida!",
@@ -331,14 +331,14 @@ export const brizolaLines:any = {
   
   //achando um item trilegal
  
-  272: "Bah! Que item trilegal é esse?! Que achado desgraçado de sorte!",
+  272: "Bah! Mas que item de fundamento é este?! Que achado desgraçado de sorte, tchê!",
   273: "Por Tarastia! Olha só isso aqui! Que tesouro maravilhoso a gente encontrou!",
   274: "Bah, que legal demais! Esse item vai fazer falta na gente! Que privilégio encontrar isso!",
-  275: "Por Tarastia! Que sorte trilegal! Esse achado pode nos salvar em muitas situações!",
+  275: "Por Tarastia! Que sorte grande! Este achado pode nos salvar de muitos apertos!",
   276: "Bah! Meu coração tá acelerado! Que item magnífico! Isso sim é um tesouro de verdade!",
   277: "Por Tarastia! Que beleza! Esse item é exatamente o que a gente precisava! Que sorte!",
   278: "Bah, que cusco sortudo sou eu! Encontrar algo assim não é comum! Que presente dos deuses!",
-  279: "Por Tarastia! Olha só a qualidade disso! Que achado trilegal demais! Vamo guardar com cuidado!",
+  279: "Por Tarastia! Olha só a qualidade disso! Que achado de fundamento! Vamo guardar com cuidado!",
   280: "Bah! Que valor tem isso aqui! Esse item é uma joia rara! Não acredito que encontramos!",
   281: "Por Tarastia! Que privilégio trilegal! Esse item vai nos tornar mais fortes! Que fortuna!",
 
@@ -369,7 +369,7 @@ export const brizolaLines:any = {
   307: "Por Tarastia! Se o clérigo fala ‘isso não é natural’, aí sim que a gente sabe que tá encrencado até o pescoço!",
   308: "Bah, antes de atravessar ponte velha, manda o mais leve primeiro. É estratégia, não é falta de carinho!",
   309: "Por Tarastia! Nunca subestima goblin organizado. Cusco pequeno com plano vira problema grande demais!",
-  310: "Bah, no fim do dia o que importa é isso: a gente volta vivo, com história trilegal pra contar e, se der, com mais ouro que ontem!"
+  310: "Bah, no fim da lida o que importa é isto: a gente volta vivo, com histórias bagualas  e, se der, com mais ouro que ontem!"
 };
  
 export const Groups ={

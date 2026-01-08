@@ -10,13 +10,7 @@ import { NPCPortraitDialog } from "./npcTalkDialog";
 /*
 To see groupids, see the minsc.groupids.txt file 
 
-==Primeiro os erros==
-
-Erros
-1-)mins ao durante a noite:
-mensagens erradas e fora de contexto depois da primeira mensagem
-2-)-brizola nao funciona
-
+ 
 =Débito==
 1-) Criar as falas do Brizola, um segundo personagem (brizola.ts)
 	1.1-) Texto - OK
@@ -24,8 +18,9 @@ mensagens erradas e fora de contexto depois da primeira mensagem
 		1.2.1) Constantes - OK
 		1.2.2) Falas por grupo - OK
 	1.3-) Telas - OK
-	1.4-) Testar
-	1.5 -) Sons e testar sons
+	1.4-) Testar - OK
+	1.5-) Melhorar falas usando o google ia
+	1.5 -) Gerar e testar sons, tentar achar sotaque gaucho
 2-) Corrigir o warning:
 accessing the global "AudioHelper" which is now namespaced under foundry.audio.AudioHelper
 Deprecated since Version 12
@@ -34,6 +29,8 @@ Backwards-compatible support will be removed in Version 14
 3-) Criar componente pra tornar genérico envio de eventos entre GM e jogadores, e no chat aparecer Evento X recebido, ignore esta mensagem
 4-) Remover do chat mensagens de eventos
 5-) Nos npcs no lugar onde tem "action" , "screen", "screen-context", criar um enum pra isto com a documentação do que significa cada um
+6-) o último voltar deveria reabrir a tela de escolha de npc
+
 */
 
 const NPC_DIALOG_VERSION =  "1.0.2"; 
