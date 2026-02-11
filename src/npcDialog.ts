@@ -29,13 +29,17 @@ Deprecated since Version 12
 Backwards-compatible support will be removed in Version 14
   at Minsc.speak (minsc.js:836:3)
 3-) Criar componente pra mensageria mas deixar o atual código comentado como failback (estudar este primeiro https://github.com/farling42/foundryvtt-socketlib)
-4-) Remover do chat mensagens de eventos
+3.1-) Criar a interface de socket - OK
+3.2-) Criar a implementação usando socket - OK
+3.3-) Criar a implementação usando dialogs, ver netsta arquivo o evento createChatMessage e a classe NPCPortraitDialog
+3.4-) Trocar o uso dos dialogs em npcTalkDialog.ts para usar a nova interface de mensageria, usando createChatMessage 
+3.5-) Trocar o uso dos dialogs em npcTalkDialog.ts para usar a nova implementação de mensageria, usando o socket 
+3.6-) Alternar a configuração de qual implementação usar a depender de uma configuração. Alterar no factory de mensageria.
+4-) Corrigir pro createDialog usar options em vez de depender da ordem dos parâmetros, criar uma interface pra options e documentar os campos.
 5-) Nos npcs no lugar onde tem "action" , "screen", "screen-context", criar um enum pra isto com a documentação do que significa cada um
 6-) o último voltar deveria reabrir a tela de escolha de npc
 7-) melhorar o menu do minsc, o do brizola ficou melhor
 8-) Tem como generalizar ainda mais o código pro próximo npc?
- 
-
 
 */
 
@@ -202,6 +206,18 @@ export class NPCDialog {
 		commonModule.debug("showNPCChooseDialog:30 after createDialog");		
 
 	}
+
+
+	public helpSubmit:string = `
+			Submit need be a function:
+			(action,label,defaultValue,callback)=>{
+				return result => {
+						if ( result === "minsc" ) console.log("User picked minsc options.");
+						else console.log("User picked option:  ", rsult );
+					}
+			}
+			`;	
+   
 
    public async callMinsc (frmModule:Module)
 	{
