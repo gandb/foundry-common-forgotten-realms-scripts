@@ -31,6 +31,8 @@ Backwards-compatible support will be removed in Version 14
 3-) Criar componente pra mensageria mas deixar o atual código comentado como failback (estudar este primeiro https://github.com/farling42/foundryvtt-socketlib)
 3.1-) Criar a interface de socket - OK
 3.2-) Criar a implementação usando socket - OK
+3.2.1-) Corrigir bug que ocorre por vezes o onReadyCommonSocket ser chamado antes ou depois de onREadyCommonModule, criando um flag para controlar isso - OK
+3.2.2-) Tentar corrigir bug que socket funciona apenas na propria maquina, nao enviando pros demais jogadores, testando com socketlib
 3.3-) Criar a implementação usando dialogs, ver netsta arquivo o evento createChatMessage e a classe NPCPortraitDialog
 3.4-) Trocar o uso dos dialogs em npcTalkDialog.ts para usar a nova interface de mensageria, usando createChatMessage 
 3.5-) Trocar o uso dos dialogs em npcTalkDialog.ts para usar a nova implementação de mensageria, usando o socket 

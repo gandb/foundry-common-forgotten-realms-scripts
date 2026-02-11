@@ -243,6 +243,7 @@ export abstract class NPC   {
 		generate(0, []);
 		return ret;
 	}
+	
 
 	public async speak  (lineIndex:number){
 		const line = npcDialog.activeNPC.lines[lineIndex];
