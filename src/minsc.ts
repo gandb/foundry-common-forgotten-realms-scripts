@@ -1,10 +1,7 @@
 import {NPCDialog} from "./npcDialog";
 import {NPC} from "./npc";
 import {minscLines,minscGroupToLines,Groups} from "./minsc-lines"; 
- 
- 
-const RANDOM :string = "999"; //required this group
-
+  
 
 const docNPC = document as FoundryDocument;
 

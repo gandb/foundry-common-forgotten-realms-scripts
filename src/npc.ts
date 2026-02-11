@@ -7,6 +7,8 @@ let npcDialog:NPCDialog;
 
 const RANDOM_GROUP:string = "999";
 
+
+
 export abstract class NPC   {
   
 	readonly DEFAULT_STYLE:string=`
@@ -21,8 +23,9 @@ export abstract class NPC   {
 	screens = new Array<Screen|any>(); 
 	abstract groupToLines:Map<string,string>;
 	abstract lines:any;
+	
 
-	constructor(public readonly name:string, public readonly imageUrl:string ){ 
+	constructor(public readonly name:string, public readonly imageUrl:string ,public readonly formatSound:string="ogg"){ 
 		npcDialog = docNPC.COMMON_MODULE.NPC_DIALOG;
 		docNPC.COMMON_MODULE.debug("NPC.constructor: COMMON_MODULE:",docNPC.COMMON_MODULE);
 		docNPC.COMMON_MODULE.debug("NPC.constructor: npcDialog:",npcDialog);
@@ -163,7 +166,7 @@ export abstract class NPC   {
 
 		docNPC.COMMON_MODULE.debug("NPC.createDialog:40 - antes de criar dialogo");
 
-		docNPC.COMMON_MODULE.DIALOG_UTILS.createDialog( title ,npcDialog.activeNPC.DEFAULT_STYLE ,innerContent,submits,submit);
+		docNPC.COMMON_MODULE.DIALOG_UTILS.createDialog( title ,npcDialog.activeNPC.DEFAULT_STYLE ,innerContent,submits,submit,200,undefined, 400);
 
 		docNPC.COMMON_MODULE.debug("NPC.createDialog:50 - depois de criar dialogo");
 
@@ -285,7 +288,7 @@ export abstract class NPC   {
 
 		const formatedIndex = lineIndex.toString().padStart(3, '0'); 
 		const name =  npcDialog.activeNPC.name;
-		const src = `modules/forgotten-realms/sounds/npcs/${name}/${formatedIndex}/${name}${formatedIndex}.ogg`;
+		const src = `modules/forgotten-realms/sounds/npcs/${name}/${formatedIndex}/${name}${formatedIndex}.${npcDialog.activeNPC.formatSound}`;
 		const ret = await this.playSoundWithNoEffect(src);
 		docNPC.COMMON_MODULE.debug("Retorno do play:",ret );
 	}
@@ -299,7 +302,7 @@ export abstract class NPC   {
 			}
 			
 			
-			AudioHelper.play({ src, autoplay: true }, true);
+			foundry.audio.AudioHelper.play({ src, autoplay: true }, true);
 			return true;  
 		}
 		catch(error:any){

@@ -19,17 +19,23 @@ To see groupids, see the minsc.groupids.txt file
 		1.2.2) Falas por grupo - OK
 	1.3-) Telas - OK
 	1.4-) Testar - OK
-	1.5-) Melhorar falas usando o google ia
-	1.5 -) Gerar e testar sons, tentar achar sotaque gaucho
-2-) Corrigir o warning:
+	1.5-) Melhorar falas usando o google ia - ok
+	1.5 -) Gerar e testar sons, tentar achar sotaque gaucho - ok
+	1.6-) Adicionar as girias e criar novos grupos pra explicá-las (ver abaixo as girias) - ok
+	1.7-)  pra ter o sotaque vou ter que usar o voice changer interpretando o sotaque gaucho - ignorado por enquanto, pdoe ser que faça com dublador.
+2-) Corrigir o warning: - ok
 accessing the global "AudioHelper" which is now namespaced under foundry.audio.AudioHelper
 Deprecated since Version 12
 Backwards-compatible support will be removed in Version 14
   at Minsc.speak (minsc.js:836:3)
-3-) Criar componente pra tornar genérico envio de eventos entre GM e jogadores, e no chat aparecer Evento X recebido, ignore esta mensagem
+3-) Criar componente pra mensageria mas deixar o atual código comentado como failback (estudar este primeiro https://github.com/farling42/foundryvtt-socketlib)
 4-) Remover do chat mensagens de eventos
 5-) Nos npcs no lugar onde tem "action" , "screen", "screen-context", criar um enum pra isto com a documentação do que significa cada um
 6-) o último voltar deveria reabrir a tela de escolha de npc
+7-) melhorar o menu do minsc, o do brizola ficou melhor
+8-) Tem como generalizar ainda mais o código pro próximo npc?
+ 
+
 
 */
 
@@ -191,7 +197,7 @@ export class NPCDialog {
 
 		commonModule.debug("showNPCChooseDialog:20 after creating buttons");		
 
-		dialogUtils.createDialog( title ,style,content,buttons); 
+		dialogUtils.createDialog( title ,style,content,buttons,undefined,200,undefined, 400); 
 
 		commonModule.debug("showNPCChooseDialog:30 after createDialog");		
 

@@ -10,6 +10,9 @@ let dialogUtils:DialogUtils ;
 
 let npcDialog:NPCDialog = commonModule.NPC_DIALOG;
 
+const NPC_IMAGE:string = "modules/common-assets/images/npcs/specials/brizola.webp";
+
+
 export class Brizola extends NPC  {
    
 
@@ -17,7 +20,7 @@ export class Brizola extends NPC  {
 	lines:any=brizolaLines;
 
 	constructor() { 
-		super("brizola","modules/common-assets/images/npcs/humanos/brizola.webp"); 
+		super("Brizola",NPC_IMAGE,"mp3"); 
 
     docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC = this;   
 
@@ -63,7 +66,9 @@ export class Brizola extends NPC  {
           dialogUtils.createButton("brizola-about-party","Sobre o grupo",true,"screen",async ()=> npcDialog.activeNPC.aboutParty() ),
           dialogUtils.createButton("brizola-exhausted", "Exaustão / Sono", true, "action", callback(Groups.EXHAUSTED_AND_SLEEPY)),
           dialogUtils.createButton("brizola-weight", "Sobrecarga de Peso", true, "action", callback(Groups.EXCESS_WEIGHT)),
-          dialogUtils.createButton("brizola-item", "Achou Item Interessante", true, "action", callback(Groups.FIND_SOME_PECULIAR_ITEM)),
+          dialogUtils.createButton("brizola-item", "Achou Item Interessante", true, "action", callback(Groups.FIND_SOME_PECULIAR_ITEM)),,
+          dialogUtils.createButton("brizola-item-teleporte", "Uso do item de teleporte 1a vez", true, "action", callback(Groups.ITEM_TELEPORT_FIRST_TIME)),,
+          dialogUtils.createButton("brizola-item", "Uso do item de teleporte demais vezes", true, "action", callback(Groups.ITEM_TELEPORT_AFTER)),
         ];
 
 			commonModule.debug("startScreen:30 depois de criado botoes"); 
@@ -166,6 +171,7 @@ export class Brizola extends NPC  {
       dialogUtils.createButton("brizola-giant-enemy", "Inimigo Gigante", true, "action", callback(Groups.FACING_GIANT_ENEMY)),
       dialogUtils.createButton("brizola-kill-enemy", "Matou Inimigo", true, "action", callback(Groups.KILLING_ENEMY)),
       dialogUtils.createButton("brizola-miss-attack", "Errou Golpe", true, "action", callback(Groups.MISSING_ATTACK)),
+      dialogUtils.createButton("brizola-hit-attack", "Acertou Golpe", true, "action", callback(Groups.HIT_ENEMY)),
       dialogUtils.createButton("brizola-immunity", "Inimigo Imune", true, "action", callback(Groups.ENEMY_WITH_IMMUNITY))
   ];
   
@@ -193,10 +199,14 @@ export class Brizola extends NPC  {
         // --- COMBATE E SAÚDE --- 
         dialogUtils.createButton("brizola-meeting", "Conhecendo Alguém", true, "action", callback(Groups.MEETING_SOMEONE)),
         dialogUtils.createButton("brizola-tarastia", "Quem é Tarástia?", true, "action", callback(Groups.EXPLAINING_TARASTIA)),
-        dialogUtils.createButton("brizola-dictionary", "Ombú, Bugio e Cusco", true, "action", callback(Groups.EXPLAINING_OMBU_BUGIO_CUSCO)),
+        dialogUtils.createButton("brizola-dictionary-01", "Ombú, Bugio e Cusco", true, "action", callback(Groups.EXPLAINING_OMBU_BUGIO_CUSCO)),
+        dialogUtils.createButton("brizola-dictionary-02", "Taipa, Colafina, Entonado, Tafoneira e Chinoca", true, "action", callback(Groups.TAIPA_COLAFINA__ENTONADO_TAFONEIRA_CHINOCA)),
+        dialogUtils.createButton("brizola-dictionary-03", "Pinguacha, Gadelá, Baitaca, Xote, Arrendado e Grotabaguala", true, "action", callback(Groups.PINGUACHA_GADELA_BAITACA_XOTE_ARRENDADO_GROTA_BAGUALA)),
         dialogUtils.createButton("brizola-minsc-boo", "Interagindo com Minsc & Boo", true, "action", callback(Groups.INTERACTING_WITH_MINSC_AND_BOO)),
-        dialogUtils.createButton("brizola-mordenkainen", "Interagindo com Mordenkainen", true, "action", callback(Groups.INTERACTING_WITH_MORDENKAINEN))
+        dialogUtils.createButton("brizola-mordenkainen", "Interagindo com Mordenkainen", true, "action", callback(Groups.INTERACTING_WITH_MORDENKAINEN)),
+		dialogUtils.createButton("brizola-bard", "Elogiando o Bardo", true, "action", callback(Groups.FOR_BARD)),
     ];
+ 
 
 		commonModule.debug("enterInAPlace:10,after creating buttons"); 
 
@@ -219,6 +229,7 @@ export class Brizola extends NPC  {
     const buttons = [
         dialogUtils.createButton("brizola-meeting", "Conhecendo Alguém", true, "action", callback(Groups.COMPLAINING_ABOUT_GROUP)),
         dialogUtils.createButton("brizola-tarastia", "Quem é Tarástia?", true, "action", callback(Groups.BEING_DECEIVED_BY_GROUP)),
+        dialogUtils.createButton("brizola-bard", "Elogiando o Bardo", true, "action", callback(Groups.FOR_BARD)),
         dialogUtils.createButton("brizola-dictionary", "Ombú, Bugio e Cusco", true, "action", callback(Groups.LEAVING_GROUP)) 
   
     ];

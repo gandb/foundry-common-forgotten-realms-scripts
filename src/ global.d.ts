@@ -19,10 +19,19 @@ namespace CONST{
     }
 };
 
+declare class AudioHelperClass{
+     preloadSound(path:string):Promise<any>;
+    play(playInfo:PlayInfo,autoplay:boolean):void;
+}
+
 namespace foundry {
-      namespace utils {
-        function mergeObject(options:any,options2:any);
-      }
+    namespace utils {
+      function mergeObject(options:any,options2:any);
+    }
+
+    namespace audio {
+      const  AudioHelper:AudioHelperClass;
+    }
 
     namespace applications {
       namespace api {
@@ -38,6 +47,7 @@ namespace foundry {
     }
   }
 
+
 declare const ChatMessage:{
     create( chatInfo: any,options:any|undefined=undefined);
     getSpeaker( speakerInfo:SpeakerInfo):any;
@@ -46,11 +56,6 @@ declare const ChatMessage:{
 declare const game:any|Game = new Game();
 
 declare const ui:any|Ui = new Ui();
-
-declare const AudioHelper:{
-    preloadSound(path:string):Promise<any>;
-    play(playInfo:PlayInfo,autoplay:boolean):void;
-};
 
 private class Game{
 }
@@ -108,7 +113,7 @@ private class Screen{
 
 private class DialogUtils{
     public helpSubmit:string;
-    public createDialog(title:string,style:string,content:string,buttons:Array<any>, callback:any=undefined);
+    public createDialog(title:string,style:string,content:string,buttons:Array<any>, callback:any=undefined, left:undefined|number=undefined,top:undefined|number=undefined,width:"auto"|number="auto",height:number| "auto"="auto");
     public createButton (action:string,label:string,defaultValue:boolean,type:"screen"|"screen-context"|"action",callback:any=undefined);
 
 }
