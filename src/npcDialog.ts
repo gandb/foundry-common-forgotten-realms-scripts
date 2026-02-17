@@ -32,10 +32,12 @@ Backwards-compatible support will be removed in Version 14
 3.1-) Criar a interface de socket - OK
 3.2-) Criar a implementação usando socket - OK
 3.2.1-) Corrigir bug que ocorre por vezes o onReadyCommonSocket ser chamado antes ou depois de onREadyCommonModule, criando um flag para controlar isso - OK
-3.2.2-) Tentar corrigir bug que socket funciona apenas na propria maquina, nao enviando pros demais jogadores, testando com socketlib
+3.2.2-) Tentar corrigir bug que socket funciona apenas na propria maquina, nao enviando pros demais jogadores, testando com socketlib-OK
+3.2.3-) Tentar corrigir o bug que surgiu ao implementar a versão de mensageria usando o socket
 3.3-) Criar a implementação usando dialogs, ver netsta arquivo o evento createChatMessage e a classe NPCPortraitDialog
-3.4-) Trocar o uso dos dialogs em npcTalkDialog.ts para usar a nova interface de mensageria, usando createChatMessage 
-3.5-) Trocar o uso dos dialogs em npcTalkDialog.ts para usar a nova implementação de mensageria, usando o socket 
+3.4-) Trocar o uso do teste no common module para usar a nova interface de mensageria
+3.5-) Trocar em  npcTalkDialog.ts  pra uar a nova implementacao usando a interface inicialmente do chat
+3.5-) Trocar em  npcTalkDialog.ts  pra uar a nova implementacao usando a interface do socketlib  
 3.6-) Alternar a configuração de qual implementação usar a depender de uma configuração. Alterar no factory de mensageria.
 4-) Corrigir pro createDialog usar options em vez de depender da ordem dos parâmetros, criar uma interface pra options e documentar os campos.
 5-) Nos npcs no lugar onde tem "action" , "screen", "screen-context", criar um enum pra isto com a documentação do que significa cada um
