@@ -359,12 +359,12 @@ export class Minsc extends NPC  {
 		await docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.send(); 
 	}
 	
-	public   async exaustion  () {	
+	public async exaustion  () {	
 		docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.groups.add(Groups.WITH_EXHAUSTION);
 		await docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.send(); 
 	}
 
-	public   async ullPlate   () {	
+	public  async fullPlate   () {	
 		docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.groups.add(Groups.FULL_ARMOR);
 		await docNPC.COMMON_MODULE.NPC_DIALOG.activeNPC.send(); 
 	}
