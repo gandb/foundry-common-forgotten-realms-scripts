@@ -35,9 +35,11 @@ Backwards-compatible support will be removed in Version 14
 3.2.2-) Tentar corrigir bug que socket funciona apenas na propria maquina, nao enviando pros demais jogadores, testando com socketlib-OK
 3.2.3-) Tentar corrigir o bug que surgiu ao implementar a versão de mensageria usando o socket - OK
 3.3-) Criar a implementação usando dialogs, ver neste arquivo o evento createChatMessage e a classe NPCPortraitDialog
-3.3.1-) Implementar
-3.3.2-) Testar casos normais (permissoes, para gm  de gm etc)
-3.3.3-) Testar envio de resposta (enviar a resposta, receber e remover da pilha)
+3.3.1-) Implementar - OK
+3.3.2-) Testar envio de resposta (enviar a resposta, receber e remover da pilha) - OK
+3.3.3-) Implementar executeIn em ambas implemntações (chat e socketlib) (envia mensagens para usuários especificos, inicialmente bloqueado apenas pra uso de gem, posteriormente pode ser configurável)
+3.3.4-) Testar casos normais (permissoes, para gm  de gm etc) na implementacao do chat
+3.3.5-) Testar executeIn na implementacao socketlib
 3.4-) Trocar o uso do teste no common module para usar a nova interface de mensageria via chat pra provar que sao equivalentes
 3.5-) Trocar em  npcTalkDialog.ts  pra uar a nova implementacao usando a interface inicialmente do chat
 3.5-) Trocar em  npcTalkDialog.ts  pra uar a nova implementacao usando a interface do socketlib  
