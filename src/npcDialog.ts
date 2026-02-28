@@ -66,6 +66,7 @@ UtilityActivity [FChQV2hnoQenjqPv] validation errors:
 6-) o último voltar deveria reabrir a tela de escolha de npc
 7-) melhorar o menu do minsc, o do brizola ficou melhor
 8-) Tem como generalizar ainda mais o código pro próximo npc?
+9-) Separar o common-assets do common-scripts (que pdoe ser opensource)
 
 */
 
