@@ -28,35 +28,31 @@ accessing the global "AudioHelper" which is now namespaced under foundry.audio.A
 Deprecated since Version 12
 Backwards-compatible support will be removed in Version 14
   at Minsc.speak (minsc.js:836:3)
-3-) Criar componente pra mensageria mas deixar o atual código comentado como failback (estudar este primeiro https://github.com/farling42/foundryvtt-socketlib)
+=>3-) Criar componente pra mensageria mas deixar o atual código comentado como failback (estudar este primeiro https://github.com/farling42/foundryvtt-socketlib)
 3.1-) Criar a interface de socket - OK
 3.2-) Criar a implementação usando socket - OK
 3.2.1-) Corrigir bug que ocorre por vezes o onReadyCommonSocket ser chamado antes ou depois de onREadyCommonModule, criando um flag para controlar isso - OK
 3.2.2-) Tentar corrigir bug que socket funciona apenas na propria maquina, nao enviando pros demais jogadores, testando com socketlib-OK
 3.2.3-) Tentar corrigir o bug que surgiu ao implementar a versão de mensageria usando o socket - OK
-3.3-) Criar a implementação usando dialogs, ver neste arquivo o evento createChatMessage e a classe NPCPortraitDialog
+=>3.3-) Criar a implementação usando dialogs, ver neste arquivo o evento createChatMessage e a classe NPCPortraitDialog
 3.3.1-) Implementar - OK
 3.3.2-) Testar envio de resposta (enviar a resposta, receber e remover da pilha) - OK
 3.3.3-) Implementar um dummy pra mandar pra producao sem nada enquanto nao fica pronto-OK
-3.3.4-) Corrigir o bug do personagem: Error: Failed to initialize Item [Actor.DO1b95JUI9uBOaBU.Item.UU1dLKFaRmXfeMyp]:
-UtilityActivity [FChQV2hnoQenjqPv] validation errors:
-  roll: 
-    formula: Expected "(", "{", "ᚖ", [+\-], [0-9], [^ (){}[\]$,+\-*%/], [a-z$_], [dD], or whitespace but "/" found.
-    at 
-3.3.5) Gerar um script de teste a ser chamado em cada um que devolve verdadeiro ou falso e roda o que hoje roda no commons, o do dummy retorna true apenas
-3.3.6-) Implementar executeIn em ambas implemntações (chat e socketlib) (envia mensagens para usuários especificos, inicialmente bloqueado apenas pra uso de gem, posteriormente pode ser configurável)
+3.3.4-) Corrigir o bug do personagem - OK
+3.3.5) Gerar um script de teste a ser chamado pelo commons para depois ser facilmente removido o que se trata de teste
+=>3.3.6-) Implementar executeIn em ambas implemntações (chat e socketlib) (envia mensagens para usuários especificos, inicialmente bloqueado apenas pra uso de gem, posteriormente pode ser configurável)
 3.3.6.1-) Implementar executeIn em na implementação de chat
 3.3.6.1.1-) Implementar sem erros de compilacao  - OK
-3.3.6.1.5-) Testar
-3.3.6.1.5.1-) Testar mensagens de jogadores pra gm e de gm para jogadores 
-3.3.6.1.5.2-) Testar mensagens seletivas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.1.5.1- 
-3.3.6.1.5.3-) Testar mensagens calculadas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.1.5.1
-3.3.6.2-) Implementar sem erros de compilacao a funcao executeIn no socketlib
-3.3.6.2.1-) Implementar sem erros de compilacao  - OK
-3.3.6.2.5-) Testar
-3.3.6.2.5.1-) Testar mensagens de jogadores pra gm e de gm para jogadores 
-3.3.6.2.5.2-) Testar mensagens seletivas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.1.5.1- 
-3.3.6.2.5.3-) Testar mensagens calculadas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.1.5.1 
+=>3.3.6.2-) Testar
+=>3.3.6.2.1-) Testar mensagens de jogadores pra gm e de gm para jogadores 
+3.3.6.1.2.2-) Testar mensagens seletivas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.1.5.1- 
+3.3.6.1.2.3-) Testar mensagens calculadas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.1.5.1
+3.3.6.3-) Implementar sem erros de compilacao a funcao executeIn no socketlib
+3.3.6.3.1-) Implementar sem erros de compilacao  - OK
+3.3.6.3.5-) Testar
+3.3.6.3.5.1-) Testar mensagens de jogadores pra gm e de gm para jogadores 
+3.3.6.3.5.2-) Testar mensagens seletivas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.1.5.1- 
+3.3.6.3.5.3-) Testar mensagens calculadas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.1.5.1 
 3.4-) Trocar o uso do teste no common module para usar a nova interface de mensageria via chat pra provar que sao equivalentes
 3.5-) Trocar em  npcTalkDialog.ts  pra uar a nova implementacao usando a interface inicialmente do chat
 3.5-) Trocar em  npcTalkDialog.ts  pra uar a nova implementacao usando a interface do socketlib  
