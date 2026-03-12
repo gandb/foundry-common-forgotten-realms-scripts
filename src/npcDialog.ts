@@ -36,35 +36,40 @@ Backwards-compatible support will be removed in Version 14
 3.2.3-) Tentar corrigir o bug que surgiu ao implementar a versão de mensageria usando o socket - OK
 =>3.3-) Criar a implementação usando dialogs, ver neste arquivo o evento createChatMessage e a classe NPCPortraitDialog
 3.3.1-) Implementar - OK
-3.3.2-) Testar envio de resposta (enviar a resposta, receber e remover da pilha) - OK
-3.3.3-) Implementar um dummy pra mandar pra producao sem nada enquanto nao fica pronto-OK
-3.3.4-) Corrigir o bug do personagem - OK
-3.3.5) Gerar um script de teste a ser chamado pelo commons para depois ser facilmente removido o que se trata de teste
-=>3.3.6-) Implementar executeIn em ambas implemntações (chat e socketlib) (envia mensagens para usuários especificos, inicialmente bloqueado apenas pra uso de gem, posteriormente pode ser configurável)
-3.3.6.1-) Implementar executeIn em na implementação de chat
+3.3.2-) Implementar um dummy pra mandar pra producao sem nada enquanto nao fica pronto-OK
+3.3.3-) Corrigir o bug do personagem - OK
+3.3.4) Gerar um script de teste a ser chamado pelo commons para depois ser facilmente removido o que se trata de teste - OK
+3.3.5-) Testar envio de resposta (enviar a resposta, receber e remover da pilha)
+3.3.5.1-) Teste - OK
+-=>3.3.5.2-) Arrumar o loop infinito de enviar um request e não voltar por não ter ninguem logado
+3.3.6-) Implementar executeIn em ambas implemntações (chat e socketlib) (envia mensagens para usuários especificos, inicialmente bloqueado apenas pra uso de gem, posteriormente pode ser configurável)
+3.3.6.1-) Implementar executeIn em na implementação de chat - OK
 3.3.6.1.1-) Implementar sem erros de compilacao  - OK
-=>3.3.6.2-) Testar
-=>3.3.6.2.1-) Testar mensagens de jogadores pra gm e de gm para jogadores 
-3.3.6.1.2.2-) Testar mensagens seletivas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.1.5.1- 
-3.3.6.1.2.3-) Testar mensagens calculadas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.1.5.1
+3.3.6.2-) Testar
+3.3.6.2.1-) Testar mensagens de jogadores pra gm e de gm para jogadores 
+3.3.6.2.1.1-) Testar mensagens de jogadores pra gm  
+3.3.6.2.1.2-) Testar mensagens de gm para jogadores 
+3.3.6.2.2-) Testar mensagens seletivas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.2 para reteste
+3.3.6.2.3-) Testar mensagens calculadas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.2 para reteste
 3.3.6.3-) Implementar sem erros de compilacao a funcao executeIn no socketlib
-3.3.6.3.1-) Implementar sem erros de compilacao  - OK
-3.3.6.3.5-) Testar
-3.3.6.3.5.1-) Testar mensagens de jogadores pra gm e de gm para jogadores
-3.3.6.3.5.2-) Arrumar o bug que faz com que o envio Hello from GM está chegando nos jogadores mas não está imprimindo, já o envio calculado volta pro gm e calcula.
-3.3.6.3.5.1.1-) Implementacao chat
-3.3.6.3.5.1.1.2-) Testes normais - OK
-3.3.6.3.5.1.1.2-) Ver bug que aparentemente se você enviar pra um evento não existente exemplo "elloGM" em vez de  "helloGM", ele fica em loop eterno
-3.3.6.3.5.1.3-) Implementacao socket
-3.3.6.3.5.2-) Testar mensagens de broadcast (para todos)
-3.3.6.3.5.2.1-) Implementacao chat
-3.3.6.3.5.2.2-) Implementacao socket
-3.3.6.3.5.3-) Testar mensagens seletivas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.1.5.1- 
-3.3.6.3.5.3.1-) Implementacao chat
-3.3.6.3.5.3.2-) Implementacao socket
-3.3.6.3.5.4-) Testar mensagens calculadas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.1.5.1 
-3.3.6.3.5.4.1-) Implementacao chat
-3.3.6.3.5.4.2-) Implementacao socket
+3.3.6.3.1-) Implementar sem erros de compilacao 
+3.3.6.3.2-) Testar
+3.3.6.3.2.1-) Testar mensagens de jogadores pra gm e de gm para jogadores
+3.3.6.3.2.2-) Arrumar o bug que faz com que o envio Hello from GM está chegando nos jogadores mas não está imprimindo, já o envio calculado volta pro gm e calcula.
+3.3.6.3.2.1.1-) Implementacao chat
+3.3.6.3.2.1.1.2-) Testes normais 
+3.3.6.3.2.1.1.3-) Ver bug que aparentemente se você enviar pra um evento não existente exemplo "elloGM" em vez de  "helloGM", ele fica em loop eterno
+3.3.6.3.2.1.1.4-) Tentar corrigir pra não mostrar o chat no jogo, ,se houver alteração de código quando terminada voltar pro item 3.3.6.3.2 para reteste
+3.3.6.3.2.1.3-) Implementacao socket
+3.3.6.3.2.2-) Testar mensagens de broadcast (para todos)
+3.3.6.3.2.2.1-) Implementacao chat
+3.3.6.3.2.2.2-) Implementacao socket
+3.3.6.3.2.3-) Testar mensagens seletivas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.3.2  para reteste
+3.3.6.3.2.3.1-) Implementacao chat
+3.3.6.3.2.3.2-) Implementacao socket
+3.3.6.3.2.4-) Testar mensagens calculadas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.3.2  para reteste
+3.3.6.3.2.4.1-) Implementacao chat
+3.3.6.3.2.4.2-) Implementacao socket
 3.4-) Trocar o uso do teste no common module para usar a nova interface de mensageria via chat pra provar que sao equivalentes
 3.5-) Trocar em  npcTalkDialog.ts  pra uar a nova implementacao usando a interface inicialmente do chat
 3.5-) Trocar em  npcTalkDialog.ts  pra uar a nova implementacao usando a interface do socketlib  
