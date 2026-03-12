@@ -41,7 +41,9 @@ Backwards-compatible support will be removed in Version 14
 3.3.4) Gerar um script de teste a ser chamado pelo commons para depois ser facilmente removido o que se trata de teste - OK
 3.3.5-) Testar envio de resposta (enviar a resposta, receber e remover da pilha)
 3.3.5.1-) Teste - OK
--=>3.3.5.2-) Arrumar o loop infinito de enviar um request e não voltar por não ter ninguem logado
+3.3.5.2-) Corrigir bug que aparece em ficha quando a ficha não é de jogador, exemplo ficha de item, de efeito, magia etc,
+ ao fechar aparece uma mensagem de erro na tela dizendo "Não foi encontrado"
+3.3.5.3-) Arrumar o loop infinito de enviar um request e não voltar por não ter ninguem logado
 3.3.6-) Implementar executeIn em ambas implemntações (chat e socketlib) (envia mensagens para usuários especificos, inicialmente bloqueado apenas pra uso de gem, posteriormente pode ser configurável)
 3.3.6.1-) Implementar executeIn em na implementação de chat - OK
 3.3.6.1.1-) Implementar sem erros de compilacao  - OK
