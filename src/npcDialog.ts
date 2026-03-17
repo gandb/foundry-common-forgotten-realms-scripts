@@ -43,13 +43,13 @@ Backwards-compatible support will be removed in Version 14
 3.3.5.1-) Teste - OK
 3.3.5.2-) Corrigir bug que aparece em ficha quando a ficha não é de jogador, exemplo ficha de item, de efeito, magia etc,
  ao fechar aparece uma mensagem de erro na tela dizendo "Não foi encontrado" - OK
-=> 3.3.5.3-) Arrumar o loop infinito de enviar um request e não voltar por não ter ninguem logado
-3.3.6-) Implementar executeIn em ambas implemntações (chat e socketlib) (envia mensagens para usuários especificos, inicialmente bloqueado apenas pra uso de gem, posteriormente pode ser configurável)
+3.3.5.3-) Arrumar o loop infinito de enviar um request e não voltar por não ter ninguem logado - OK
+=>3.3.6-) Implementar executeIn em ambas implemntações (chat e socketlib) (envia mensagens para usuários especificos, inicialmente bloqueado apenas pra uso de gem, posteriormente pode ser configurável)
 3.3.6.1-) Implementar executeIn em na implementação de chat - OK
 3.3.6.1.1-) Implementar sem erros de compilacao  - OK
-3.3.6.2-) Testar
-3.3.6.2.1-) Testar mensagens de jogadores pra gm e de gm para jogadores 
-3.3.6.2.1.1-) Testar mensagens de jogadores pra gm  
+=>3.3.6.2-) Testar
+=>3.3.6.2.1-) Testar mensagens de jogadores pra gm e de gm para jogadores 
+=>3.3.6.2.1.1-) Testar mensagens de jogadores pra gm  
 3.3.6.2.1.2-) Testar mensagens de gm para jogadores 
 3.3.6.2.2-) Testar mensagens seletivas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.2 para reteste
 3.3.6.2.3-) Testar mensagens calculadas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.2 para reteste

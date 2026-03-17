@@ -17,6 +17,7 @@
 
     // Saída
     "sourceMap": true,
+    "rootDir": "./",
     "outDir": "./",
 
     // Qualidade de tipos / compatibilidade
