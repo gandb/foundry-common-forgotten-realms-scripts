@@ -54,24 +54,29 @@ Backwards-compatible support will be removed in Version 14
 3.3.6.2.2-) Testar mensagens seletivas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.2 para reteste
 3.3.6.2.3-) Testar mensagens calculadas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.2 para reteste
 =>3.3.6.3-) Implementar sem erros de compilacao a funcao executeIn no socketlib
-3.3.6.3.1-) Implementar sem erros de compilacao 
-3.3.6.3.2-) Testar
-3.3.6.3.2.1-) Testar mensagens de jogadores pra gm e de gm para jogadores
-3.3.6.3.2.2-) Arrumar o bug que faz com que o envio Hello from GM está chegando nos jogadores mas não está imprimindo, já o envio calculado volta pro gm e calcula.
-3.3.6.3.2.1.1-) Implementacao chat
-3.3.6.3.2.1.1.2-) Testes normais 
-3.3.6.3.2.1.1.3-) Ver bug que aparentemente se você enviar pra um evento não existente exemplo "elloGM" em vez de  "helloGM", ele fica em loop eterno
-3.3.6.3.2.1.1.4-) Tentar corrigir pra não mostrar o chat no jogo, ,se houver alteração de código quando terminada voltar pro item 3.3.6.3.2 para reteste
-3.3.6.3.2.1.3-) Implementacao socket
-3.3.6.3.2.2-) Testar mensagens de broadcast (para todos)
-3.3.6.3.2.2.1-) Implementacao chat
-3.3.6.3.2.2.2-) Implementacao socket
-3.3.6.3.2.3-) Testar mensagens seletivas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.3.2  para reteste
-3.3.6.3.2.3.1-) Implementacao chat
-3.3.6.3.2.3.2-) Implementacao socket
-3.3.6.3.2.4-) Testar mensagens calculadas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.3.2  para reteste
-3.3.6.3.2.4.1-) Implementacao chat
-3.3.6.3.2.4.2-) Implementacao socket
+3.3.6.3.1-)Teste para todos - OK
+3.3.6.3.2-)Teste para apenas GM -OK
+3.3.6.3.3-)Teste para jogadores - OK
+3.3.6.3.4-)Teste para pessoas especificas -
+3.3.6.3.5-)Teste com calculo - OK
+3.3.6.3.6-)Implementar sem erros de compilacao - OK
+=>3.3.6.3.7-) O log não funciona bem com o firfox, no firefox no modo debug, nao deveria gerar erro ou ter outro modo pra imprimir o stack trace.
+3.3.6.3.4-) Testar mensagens de jogadores pra gm e de gm para jogadores
+3.3.6.3.4.1-) Arrumar o bug que faz com que o envio Hello from GM está chegando nos jogadores mas não está imprimindo, já o envio calculado volta pro gm e calcula.
+3.3.6.3.4.2-) Implementacao chat
+3.3.6.3.4.2.2-) Testes normais 
+3.3.6.3.4.2.3-) Ver bug que aparentemente se você enviar pra um evento não existente exemplo "elloGM" em vez de  "helloGM", ele fica em loop eterno
+3.3.6.3.4.2.4-) Tentar corrigir pra não mostrar o chat no jogo, ,se houver alteração de código quando terminada voltar pro item 3.3.6.3.2 para reteste
+3.3.6.3.5-) Implementacao socket
+3.3.6.3.5.1-) Testar mensagens de broadcast (para todos)
+3.3.6.3.5.1.1-) Implementacao chat
+3.3.6.3.5.1.2-) Implementacao socket
+3.3.6.3.5.2-) Testar mensagens seletivas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.3.2  para reteste
+3.3.6.3.5.2.1-) Implementacao chat
+3.3.6.3.5.2.2-) Implementacao socket
+3.3.6.3.6.3-) Testar mensagens calculadas (apenas pra alguns jogadores),se houver alteração de código quando terminada voltar pro item 3.3.6.3.2  para reteste
+3.3.6.3.6.3.1-) Implementacao chat
+3.3.6.3.6.3.2-) Implementacao socket
 3.4-) Trocar o uso do teste no common module para usar a nova interface de mensageria via chat pra provar que sao equivalentes
 3.5-) Trocar em  npcTalkDialog.ts  pra uar a nova implementacao usando a interface inicialmente do chat
 3.5-) Trocar em  npcTalkDialog.ts  pra uar a nova implementacao usando a interface do socketlib  
